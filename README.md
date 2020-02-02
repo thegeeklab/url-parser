@@ -10,7 +10,7 @@ Inspired by [herloct/url-parser](https://github.com/herloct/url-parser), a simpl
 Prebuild multiarch binaries are availabe for Linux only:
 
 ```Shell
-curl -L https://github.com/xoxys/url-parser/releases/download/0.1.0-beta4/url-parser-0.1.0-linux-amd64 > /usr/local/bin/url-parser
+curl -L https://github.com/xoxys/url-parser/releases/download/v0.1.0/url-parser-0.1.0-linux-amd64 > /usr/local/bin/url-parser
 chmod +x /usr/local/bin/url-parser
 url-parser --help
 ```

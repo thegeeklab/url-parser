@@ -63,7 +63,6 @@ def binaries(arch):
         'commands': [
           '[ -z "${DRONE_TAG}" ] && BUILD_VERSION=${DRONE_COMMIT_SHA:0:8} || BUILD_VERSION=${DRONE_TAG##v}',
           'mkdir -p release/',
-          "ls -lh",
           "xgo -ldflags \"-X main.Version=$BUILD_VERSION\" -tags netgo -targets 'linux/amd64,linux/arm-6,linux/arm64' -out url-parser-$BUILD_VERSION ./cmd/url-parser",
           'cp /build/* release/'
         ]

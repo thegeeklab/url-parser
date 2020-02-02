@@ -45,6 +45,7 @@ steps:
 - name: executable
   image: golang:1.12
   commands:
+  - ls -lah release/
   - $(find release/ -executable -type f | grep url-parser-*-linux-amd64) --help
 
 - name: checksum
@@ -111,6 +112,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: 58a67a5f759ed5cb3c383dec029e7ffb7b173143e30b22fcca04f159cbfb49b9
+hmac: a160f6d0e4bd08b624d5d2fb352a76139d0771327831fa6d7650676a5f0148d0
 
 ...

@@ -46,6 +46,7 @@ steps:
   image: golang:1.12
   commands:
   - ls -lah release/
+  - find release/ -executable -type f | grep url-parser-*-linux-amd64
   - $(find release/ -executable -type f | grep url-parser-*-linux-amd64) --help
 
 - name: checksum
@@ -112,6 +113,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: a160f6d0e4bd08b624d5d2fb352a76139d0771327831fa6d7650676a5f0148d0
+hmac: a0ec5f8871573fcc5db9ca24c35445fa843d573f2cbbf9fe9eefaf87aacc9190
 
 ...

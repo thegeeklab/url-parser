@@ -8,15 +8,14 @@ import (
 	"github.com/xoxys/url-parser/commands"
 )
 
-var (
-	version = "0.1.0"
-)
+// Version of current build
+var Version = "devel"
 
 func main() {
 	app := cli.NewApp()
 	app.Name = "url-parser"
 	app.Usage = "Parse URL and shows the part of it."
-	app.Version = version
+	app.Version = Version
 	app.Action = commands.Run
 	app.Flags = globalFlags()
 	app.Commands = configCommands()

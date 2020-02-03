@@ -127,7 +127,7 @@ def notification():
     'steps': [
       {
         'name': 'coverage',
-        'image': 'plugins/codevoc',
+        'image': 'plugins/codecov',
         'settings': {
           'token': {
             'from_secret': 'codecov_token',

@@ -21,7 +21,7 @@ func PathFlags() []cli.Flag {
 
 // Path prints out the path part from url
 func Path(ctx *cli.Context) error {
-	parts := parseURL(ctx)
+	parts := parseURL(ctx.String("url"))
 	i := ctx.Int("path-index")
 
 	if len(parts.Path) > 0 {

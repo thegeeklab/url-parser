@@ -38,7 +38,7 @@ def testing():
         'name': 'test',
         'image': 'golang:1.12',
         'commands': [
-          'go test -cover ./...'
+          'go test -race -coverprofile=coverage.txt -covermode=atomic ./...'
         ],
       }
     ],
@@ -126,6 +126,23 @@ def notification():
     'name': 'notification',
     'steps': [
       {
+        'name': 'coverage',
+        'image': 'plugins/codevoc',
+        'settings': {
+          'token': {
+            'from_secret': 'codecov_token',
+          },
+          'files':[
+            'coverage.txt'
+          ]
+        },
+        'when': {
+          'status': [
+            'success',
+          ]
+        }
+      },
+      {
         'name': 'matrix',
         'image': 'plugins/matrix',
         'settings': {
@@ -143,13 +160,20 @@ def notification():
             'from_secret': 'matrix_username',
           },
         },
+        'when': {
+          'ref': [
+            'refs/heads/master',
+            'refs/tags/**',
+          ],
+        }
       },
     ],
     'depends_on': [],
     'trigger': {
       'ref': [
         'refs/heads/master',
-        'refs/tags/**'
+        'refs/tags/**',
+        'refs/pull/**',
       ],
       'status': [
         'success',

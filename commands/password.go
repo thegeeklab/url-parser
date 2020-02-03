@@ -8,7 +8,7 @@ import (
 
 // Password prints out the password part from url
 func Password(ctx *cli.Context) error {
-	parts := parseURL(ctx)
+	parts := parseURL(ctx.String("url"))
 
 	if parts.User != nil {
 		pw, _ := parts.User.Password()
@@ -16,5 +16,6 @@ func Password(ctx *cli.Context) error {
 			fmt.Println(pw)
 		}
 	}
+
 	return nil
 }

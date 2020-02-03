@@ -8,7 +8,7 @@ import (
 
 // User prints out the user part from url
 func User(ctx *cli.Context) error {
-	parts := parseURL(ctx)
+	parts := parseURL(ctx.String("url"))
 
 	if parts.User != nil {
 		if len(parts.User.Username()) > 0 {

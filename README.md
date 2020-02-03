@@ -1,6 +1,7 @@
 # url-parser
 
 [![Build Status](https://img.shields.io/drone/build/xoxys/url-parser?logo=drone)](https://cloud.drone.io/xoxys/url-parser)
+[![Codecov](https://img.shields.io/codecov/c/github/xoxys/url-parser)](https://codecov.io/gh/xoxys/url-parser)
 [![License: MIT](https://img.shields.io/github/license/xoxys/url-parser)](LICENSE)
 
 Inspired by [herloct/url-parser](https://github.com/herloct/url-parser), a simple command-line utility for parsing URLs.

@@ -16,7 +16,7 @@ steps:
 - name: test
   image: golang:1.12
   commands:
-  - go test -cover ./...
+  - go test -race -coverprofile=coverage.txt -covermode=atomic ./...
 
 trigger:
   ref:
@@ -92,6 +92,17 @@ platform:
   arch: amd64
 
 steps:
+- name: coverage
+  image: plugins/codevoc
+  settings:
+    files:
+    - coverage.txt
+    token:
+      from_secret: codecov_token
+  when:
+    status:
+    - success
+
 - name: matrix
   image: plugins/matrix
   settings:
@@ -104,11 +115,16 @@ steps:
     template: "Status: **{{ build.status }}**<br/> Build: [{{ repo.Owner }}/{{ repo.Name }}]({{ build.link }}) ({{ build.branch }}) by {{ build.author }}<br/> Message: {{ build.message }}"
     username:
       from_secret: matrix_username
+  when:
+    ref:
+    - refs/heads/master
+    - refs/tags/**
 
 trigger:
   ref:
   - refs/heads/master
   - refs/tags/**
+  - refs/pull/**
   status:
   - success
   - failure
@@ -118,6 +134,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: 84fb5966acf998f5efffbec5d0a279838b7912b578970668eb8fccd66c5ddc4e
+hmac: b2a4aa46d907139e996670fcad212137ba51b1d0aba5a56b80644f5337f0617f
 
 ...

@@ -8,7 +8,7 @@ import (
 
 // Run default command and print out full url
 func Run(ctx *cli.Context) error {
-	parts := parseURL(ctx)
+	parts := parseURL(ctx.String("url"))
 
 	if len(parts.String()) > 0 {
 		fmt.Println(parts)

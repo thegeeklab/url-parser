@@ -25,10 +25,6 @@ steps:
     - coverage.txt
     token:
       from_secret: codecov_token
-  when:
-    ref:
-    - refs/heads/master
-    - refs/pull/**
 
 trigger:
   ref:
@@ -130,6 +126,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: 0f5b0278040dd5a8fa7e7794e7552063af07d127f90c15676238a2b63687dc6a
+hmac: 999c45dd679c809e8dc40c3f72d4e6a3f95c5f57f14ca2aba3472b7226893d13
 
 ...

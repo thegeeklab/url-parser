@@ -52,12 +52,6 @@ def testing():
             'coverage.txt'
           ],
         },
-        'when': {
-          'ref': [
-            'refs/heads/master',
-            'refs/pull/**'
-          ],
-        },
       },
     ],
     'trigger': {

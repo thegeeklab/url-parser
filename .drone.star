@@ -75,6 +75,15 @@ def binaries(arch):
         ]
       },
       {
+        'name': 'compress',
+        'image': 'alpine',
+        'commands': [
+          'apk add upx',
+          'find release/ -maxdepth 1 -executable -type f -exec upx {} \;',
+          'ls -lh release/',
+        ]
+      },
+      {
         'name': 'checksum',
         'image': 'alpine',
         'commands': [

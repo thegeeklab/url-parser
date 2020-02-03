@@ -47,6 +47,13 @@ steps:
   commands:
   - $(find release/ -executable -type f | grep url-parser-.*-linux-amd64) --help
 
+- name: compress
+  image: alpine
+  commands:
+  - apk add upx
+  - find release/ -maxdepth 1 -executable -type f -exec upx {} \;
+  - ls -lh release/
+
 - name: checksum
   image: alpine
   commands:
@@ -111,6 +118,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: 4fe412d8dad69f05a8b864120dd812fb19e9c4652016ed9ff704f4de8fee6d8a
+hmac: 84fb5966acf998f5efffbec5d0a279838b7912b578970668eb8fccd66c5ddc4e
 
 ...

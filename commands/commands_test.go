@@ -11,7 +11,7 @@ func TestParseURL(t *testing.T) {
 	urlString := "postgres://user:pass@host.com:5432/path/to?key=value&other=other%20value#some-fragment"
 
 	tables := []TestParseData{
-		TestParseData{
+		{
 			urlString: urlString,
 			expected:  urlString,
 		},

@@ -19,12 +19,12 @@ func TestPath(t *testing.T) {
 	urlString := "postgres://user:pass@host.com:5432/path/to?key=value&other=other%20value#some-fragment"
 
 	tables := []TestPathData{
-		TestPathData{
+		{
 			urlString: urlString,
 			pathIndex: -1,
 			expected:  "/path/to",
 		},
-		TestPathData{
+		{
 			urlString: urlString,
 			pathIndex: 0,
 			expected:  "path",

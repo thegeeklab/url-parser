@@ -59,6 +59,18 @@ steps:
   commands:
   - cd release/ && sha256sum * > sha256sum.txt
 
+- name: coverage
+  image: plugins/codecov
+  settings:
+    files:
+    - coverage.txt
+    token:
+      from_secret: codecov_token
+  when:
+    ref:
+    - refs/heads/master
+    - refs/pull/**
+
 - name: publish
   image: plugins/github-release
   settings:
@@ -92,17 +104,6 @@ platform:
   arch: amd64
 
 steps:
-- name: coverage
-  image: plugins/codecov
-  settings:
-    files:
-    - coverage.txt
-    token:
-      from_secret: codecov_token
-  when:
-    status:
-    - success
-
 - name: matrix
   image: plugins/matrix
   settings:
@@ -115,16 +116,11 @@ steps:
     template: "Status: **{{ build.status }}**<br/> Build: [{{ repo.Owner }}/{{ repo.Name }}]({{ build.link }}) ({{ build.branch }}) by {{ build.author }}<br/> Message: {{ build.message }}"
     username:
       from_secret: matrix_username
-  when:
-    ref:
-    - refs/heads/master
-    - refs/tags/**
 
 trigger:
   ref:
   - refs/heads/master
   - refs/tags/**
-  - refs/pull/**
   status:
   - success
   - failure
@@ -134,6 +130,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: e861eec40c380dc94525d15f454ec7df9dc941623435d9ccf1975fd8f90bd9c0
+hmac: 4d47c1352ad084436acc5f2fefff9cddf87ed1d09be8e41d7e37d818b164d718
 
 ...

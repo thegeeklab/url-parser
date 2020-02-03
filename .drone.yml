@@ -18,6 +18,18 @@ steps:
   commands:
   - go test -race -coverprofile=coverage.txt -covermode=atomic ./...
 
+- name: coverage
+  image: plugins/codecov
+  settings:
+    files:
+    - coverage.txt
+    token:
+      from_secret: codecov_token
+  when:
+    ref:
+    - refs/heads/master
+    - refs/pull/**
+
 trigger:
   ref:
   - refs/heads/master
@@ -58,18 +70,6 @@ steps:
   image: alpine
   commands:
   - cd release/ && sha256sum * > sha256sum.txt
-
-- name: coverage
-  image: plugins/codecov
-  settings:
-    files:
-    - coverage.txt
-    token:
-      from_secret: codecov_token
-  when:
-    ref:
-    - refs/heads/master
-    - refs/pull/**
 
 - name: publish
   image: plugins/github-release
@@ -130,6 +130,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: 4d47c1352ad084436acc5f2fefff9cddf87ed1d09be8e41d7e37d818b164d718
+hmac: 0f5b0278040dd5a8fa7e7794e7552063af07d127f90c15676238a2b63687dc6a
 
 ...

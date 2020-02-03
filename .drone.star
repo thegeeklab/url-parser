@@ -40,7 +40,25 @@ def testing():
         'commands': [
           'go test -race -coverprofile=coverage.txt -covermode=atomic ./...'
         ],
-      }
+      },
+      {
+        'name': 'coverage',
+        'image': 'plugins/codecov',
+        'settings': {
+          'token': {
+            'from_secret': 'codecov_token',
+          },
+          'files':[
+            'coverage.txt'
+          ],
+        },
+        'when': {
+          'ref': [
+            'refs/heads/master',
+            'refs/pull/**'
+          ],
+        },
+      },
     ],
     'trigger': {
       'ref': [
@@ -89,24 +107,6 @@ def binaries(arch):
         'commands': [
             'cd release/ && sha256sum * > sha256sum.txt',
         ],
-      },
-      {
-        'name': 'coverage',
-        'image': 'plugins/codecov',
-        'settings': {
-          'token': {
-            'from_secret': 'codecov_token',
-          },
-          'files':[
-            'coverage.txt'
-          ],
-        },
-        'when': {
-          'ref': [
-            'refs/heads/master',
-            'refs/pull/**'
-          ],
-        },
       },
       {
         'name': 'publish',

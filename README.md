@@ -28,15 +28,19 @@ USAGE:
    url-parser [global options] command [command options] [arguments...]
 
 VERSION:
-   0.1.0
+   devel
 
 COMMANDS:
-   all, a       print out all parts from url
-   scheme, s    print out scheme from url
-   user, u      print out username from url
-   password, pw print out password from url
-   path, p      print out the path from url
-   help, h      Shows a list of commands or help for one command
+   all, a        Get all parts from url
+   scheme, s     Get scheme from url
+   user, u       Get username from url
+   password, pw  Get password from url
+   path, pt      Get path from url
+   host, h       Get hostname from url
+   port, p       Get port from url
+   query, q      Get query from url
+   fragment, f   Get fragment from url
+   help, h       Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
    --url value    source url to parse [$URL_PARSER_URL]

@@ -39,7 +39,7 @@ steps:
   commands:
   - "[ -z \"${DRONE_TAG}\" ] && BUILD_VERSION=${DRONE_COMMIT_SHA:0:8} || BUILD_VERSION=${DRONE_TAG##v}"
   - mkdir -p release/
-  - cd cmd/url-parser && xgo -ldflags "-X main.Version=$BUILD_VERSION" -tags netgo -targets 'linux/amd64,linux/arm-6,linux/arm64' -out url-parser-$BUILD_VERSION .
+  - cd cmd/url-parser && xgo -ldflags "-s -w -X main.Version=$BUILD_VERSION" -tags netgo -targets 'linux/amd64,linux/arm-6,linux/arm64' -out url-parser-$BUILD_VERSION .
   - cp /build/* /drone/src/release/
 
 - name: executable
@@ -111,6 +111,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: f891a7f6d288894b4130bc371a74d249d6a6eee6f7abe8ccea5c471a91240fe1
+hmac: 4fe412d8dad69f05a8b864120dd812fb19e9c4652016ed9ff704f4de8fee6d8a
 
 ...

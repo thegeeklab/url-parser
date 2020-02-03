@@ -69,11 +69,10 @@ def binaries(arch):
       },
       {
         'name': 'executable',
-        'image': 'golang:1.12',
+        'image': 'alpine',
         'commands': [
-          'ls -lah release/',
-          'find release/ -executable -type f | grep url-parser-*-linux-amd64',
-          '$(find release/ -executable -type f | grep url-parser-*-linux-amd64) --help',
+          'find release/ -executable -type f | grep url-parser-.*-linux-amd64',
+          '$(find release/ -executable -type f | grep url-parser-.*-linux-amd64) --help',
         ]
       },
       {

@@ -71,7 +71,6 @@ def binaries(arch):
         'name': 'executable',
         'image': 'alpine',
         'commands': [
-          'find release/ -executable -type f | grep url-parser-.*-linux-amd64',
           '$(find release/ -executable -type f | grep url-parser-.*-linux-amd64) --help',
         ]
       },

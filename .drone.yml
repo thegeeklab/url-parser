@@ -45,7 +45,6 @@ steps:
 - name: executable
   image: alpine
   commands:
-  - find release/ -executable -type f | grep url-parser-.*-linux-amd64
   - $(find release/ -executable -type f | grep url-parser-.*-linux-amd64) --help
 
 - name: checksum
@@ -112,6 +111,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: 6f853f3ee5b938c3cb8013f962bf3c370ae0b2da34265dbbf2cee3b3369f8170
+hmac: f891a7f6d288894b4130bc371a74d249d6a6eee6f7abe8ccea5c471a91240fe1
 
 ...

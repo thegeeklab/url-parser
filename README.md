@@ -70,10 +70,10 @@ $ url-parser query --query-field=some-key --url https://somedomain.com/?some-key
 somevalue
 ```
 
-### License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-### Maintainers and Contributors
+## Maintainers and Contributors
 
 [Robert Kaussow](https://github.com/xoxys)

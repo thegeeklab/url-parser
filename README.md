@@ -4,8 +4,8 @@ Simple command-line URL parser
 
 [![Build Status](https://img.shields.io/drone/build/thegeeklab/url-parser?logo=drone)](https://cloud.drone.io/thegeeklab/url-parser)
 [![Go Report Card](https://goreportcard.com/badge/github.com/thegeeklab/url-parser)](https://goreportcard.com/report/github.com/thegeeklab/url-parser)
-[![Codecov](https://img.shields.io/codecov/c/github/xoxys/url-parser)](https://codecov.io/gh/xoxys/url-parser)
-[![Source: GitHub](https://img.shields.io/badge/source-github-blue.svg?logo=github&logoColor=white)](https://github.com/thegeeklab/url-parser)
+[![Codecov](https://img.shields.io/codecov/c/github/thegeeklab/url-parser)](https://codecov.io/gh/thegeeklab/url-parser)
+[![GitHub contributors](https://img.shields.io/github/contributors/thegeeklab/url-parser)](https://github.com/thegeeklab/url-parser/graphs/contributors)
 [![License: MIT](https://img.shields.io/github/license/thegeeklab/url-parser)](<[LICENSE](https://github.com/thegeeklab/url-parser/blob/master/LICENSE)>)
 
 Inspired by [herloct/url-parser](https://github.com/herloct/url-parser), a simple command-line utility for parsing URLs.
@@ -73,6 +73,10 @@ $ url-parser query --query-field=some-key --url https://somedomain.com/?some-key
 somevalue
 ```
 
+## Contributors
+
+Special thanks goes to all [contributors](https://github.com/thegeeklab/url-parser/graphs/contributors).
+
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/thegeeklab/url-parser/blob/master/LICENSE) file for details.

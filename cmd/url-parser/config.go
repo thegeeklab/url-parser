@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/thegeeklab/url-parser/internal/command"
 	"github.com/urfave/cli/v2"
-	"github.com/xoxys/url-parser/commands"
 )
 
 func globalFlags() []cli.Flag {
@@ -21,63 +21,63 @@ func configCommands() []*cli.Command {
 			Name:    "all",
 			Aliases: []string{"a"},
 			Usage:   "Get all parts from url",
-			Action:  commands.Run,
+			Action:  command.Run,
 			Flags:   globalFlags(),
 		},
 		{
 			Name:    "scheme",
 			Aliases: []string{"s"},
 			Usage:   "Get scheme from url",
-			Action:  commands.Scheme,
+			Action:  command.Scheme,
 			Flags:   globalFlags(),
 		},
 		{
 			Name:    "user",
 			Aliases: []string{"u"},
 			Usage:   "Get username from url",
-			Action:  commands.User,
+			Action:  command.User,
 			Flags:   globalFlags(),
 		},
 		{
 			Name:    "password",
 			Aliases: []string{"pw"},
 			Usage:   "Get password from url",
-			Action:  commands.Password,
+			Action:  command.Password,
 			Flags:   globalFlags(),
 		},
 		{
 			Name:    "path",
 			Aliases: []string{"pt"},
 			Usage:   "Get path from url",
-			Action:  commands.Path,
-			Flags:   append(globalFlags(), commands.PathFlags()...),
+			Action:  command.Path,
+			Flags:   append(globalFlags(), command.PathFlags()...),
 		},
 		{
 			Name:    "host",
 			Aliases: []string{"h"},
 			Usage:   "Get hostname from url",
-			Action:  commands.Host,
+			Action:  command.Host,
 			Flags:   globalFlags(),
 		},
 		{
 			Name:    "port",
 			Aliases: []string{"p"},
 			Usage:   "Get port from url",
-			Action:  commands.Port,
+			Action:  command.Port,
 			Flags:   globalFlags(),
 		},
 		{
 			Name:    "query",
 			Aliases: []string{"q"},
 			Usage:   "Get query from url",
-			Action:  commands.Query,
-			Flags:   append(globalFlags(), commands.QueryFlags()...),
+			Action:  command.Query,
+			Flags:   append(globalFlags(), command.QueryFlags()...),
 		},
 		{
 			Name:    "fragment",
 			Aliases: []string{"f"},
 			Usage:   "Get fragment from url",
-			Action:  commands.Fragment,
+			Action:  command.Fragment,
 			Flags:   globalFlags(),
 		},
 	}

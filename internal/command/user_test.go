@@ -1,4 +1,4 @@
-package commands
+package command
 
 import (
 	"flag"
@@ -9,18 +9,18 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-type TestSchemeData struct {
+type TestUserData struct {
 	urlString string
 	expected  string
 }
 
-func TestScheme(t *testing.T) {
+func TestUser(t *testing.T) {
 	urlString := "postgres://user:pass@host.com:5432/path/to?key=value&other=other%20value#some-fragment"
 
-	tables := []TestSchemeData{
+	tables := []TestUserData{
 		{
 			urlString: urlString,
-			expected:  "postgres",
+			expected:  "user",
 		},
 	}
 
@@ -30,10 +30,10 @@ func TestScheme(t *testing.T) {
 		set.String("url", table.urlString, "test url")
 
 		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { Scheme(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { User(c) }))
 
 		if result != table.expected {
-			t.Fatalf("URL scheme `%v`, should be `%v`", result, table.expected)
+			t.Fatalf("URL user `%v`, should be `%v`", result, table.expected)
 		}
 	}
 }

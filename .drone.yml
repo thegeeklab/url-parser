@@ -1,22 +1,43 @@
 ---
 kind: pipeline
-type: docker
-name: testing
+name: test
 
 platform:
   os: linux
   arch: amd64
 
 steps:
+- name: staticcheck
+  image: golang:1.14
+  commands:
+  - go run honnef.co/go/tools/cmd/staticcheck ./...
+  volumes:
+  - name: gopath
+    path: /go
+
+- name: lint
+  image: golang:1.14
+  commands:
+  - go run golang.org/x/lint/golint -set_exit_status ./...
+  volumes:
+  - name: gopath
+    path: /go
+
 - name: vet
-  image: golang:1.12
+  image: golang:1.14
   commands:
   - go vet ./...
+  volumes:
+  - name: gopath
+    path: /go
 
 - name: test
-  image: golang:1.12
+  image: golang:1.14
   commands:
   - go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+  volumes:
+  - name: gopath
+    path: /go
 
 - name: coverage
   image: plugins/codecov
@@ -26,6 +47,10 @@ steps:
     token:
       from_secret: codecov_token
 
+volumes:
+- name: gopath
+  temp: {}
+
 trigger:
   ref:
   - refs/heads/master
@@ -34,7 +59,6 @@ trigger:
 
 ---
 kind: pipeline
-type: docker
 name: build-binaries
 
 platform:
@@ -43,17 +67,17 @@ platform:
 
 steps:
 - name: build
-  image: techknowlogick/xgo:latest
+  image: techknowlogick/xgo:go-1.14.x
   commands:
   - "[ -z \"${DRONE_TAG}\" ] && BUILD_VERSION=${DRONE_COMMIT_SHA:0:8} || BUILD_VERSION=${DRONE_TAG##v}"
   - mkdir -p release/
-  - cd cmd/url-parser && xgo -ldflags "-s -w -X main.Version=$BUILD_VERSION" -tags netgo -targets 'linux/amd64,linux/arm-6,linux/arm64' -out url-parser-$BUILD_VERSION .
-  - cp /build/* /drone/src/release/
+  - cd cmd/github-releases-notifier && xgo -ldflags "-s -w -X main.version=$BUILD_VERSION" -tags netgo -targets 'linux/amd64,linux/arm-6,linux/arm64' -out github-releases-notifier .
+  - mv /build/* /drone/src/release/
 
 - name: executable
   image: alpine
   commands:
-  - $(find release/ -executable -type f | grep url-parser-.*-linux-amd64) --help
+  - $(find release/ -executable -type f | grep github-releases-notifier-linux-amd64) --help
 
 - name: compress
   image: alpine
@@ -88,12 +112,11 @@ trigger:
   - refs/pull/**
 
 depends_on:
-- testing
+- test
 
 ---
 kind: pipeline
-type: docker
-name: notification
+name: notifications
 
 platform:
   os: linux
@@ -112,6 +135,10 @@ steps:
     template: "Status: **{{ build.status }}**<br/> Build: [{{ repo.Owner }}/{{ repo.Name }}]({{ build.link }}) ({{ build.branch }}) by {{ build.author }}<br/> Message: {{ build.message }}"
     username:
       from_secret: matrix_username
+  when:
+    status:
+    - success
+    - failure
 
 trigger:
   ref:
@@ -126,6 +153,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: 999c45dd679c809e8dc40c3f72d4e6a3f95c5f57f14ca2aba3472b7226893d13
+hmac: 5ca11cf4dc76a28155711c9665abeab4a3e61a5bd8c819588a76ba8baef16cfe
 
 ...

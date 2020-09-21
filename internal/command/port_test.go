@@ -1,4 +1,4 @@
-package commands
+package command
 
 import (
 	"flag"
@@ -9,18 +9,18 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-type TestFragmentData struct {
+type TestPortData struct {
 	urlString string
 	expected  string
 }
 
-func TestFragment(t *testing.T) {
+func TestPort(t *testing.T) {
 	urlString := "postgres://user:pass@host.com:5432/path/to?key=value&other=other%20value#some-fragment"
 
-	tables := []TestFragmentData{
+	tables := []TestPortData{
 		{
 			urlString: urlString,
-			expected:  "some-fragment",
+			expected:  "5432",
 		},
 	}
 
@@ -30,10 +30,10 @@ func TestFragment(t *testing.T) {
 		set.String("url", table.urlString, "test url")
 
 		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { Fragment(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { Port(c) }))
 
 		if result != table.expected {
-			t.Fatalf("URL fragment `%v`, should be `%v`", result, table.expected)
+			t.Fatalf("URL port `%v`, should be `%v`", result, table.expected)
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package commands
+package command
 
 import (
 	"flag"
@@ -9,25 +9,18 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-type TestPathData struct {
+type TestSchemeData struct {
 	urlString string
-	pathIndex int
 	expected  string
 }
 
-func TestPath(t *testing.T) {
+func TestScheme(t *testing.T) {
 	urlString := "postgres://user:pass@host.com:5432/path/to?key=value&other=other%20value#some-fragment"
 
-	tables := []TestPathData{
+	tables := []TestSchemeData{
 		{
 			urlString: urlString,
-			pathIndex: -1,
-			expected:  "/path/to",
-		},
-		{
-			urlString: urlString,
-			pathIndex: 0,
-			expected:  "path",
+			expected:  "postgres",
 		},
 	}
 
@@ -35,13 +28,12 @@ func TestPath(t *testing.T) {
 		app := cli.NewApp()
 		set := flag.NewFlagSet("test", 0)
 		set.String("url", table.urlString, "test url")
-		set.Int("path-index", table.pathIndex, "index")
 
 		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { Path(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { Scheme(c) }))
 
 		if result != table.expected {
-			t.Fatalf("URL path `%v`, should be `%v`", result, table.expected)
+			t.Fatalf("URL scheme `%v`, should be `%v`", result, table.expected)
 		}
 	}
 }

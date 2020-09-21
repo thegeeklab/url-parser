@@ -1,2 +1,2 @@
-* FEATURE
-  * Initial release
+- INTERNAL
+  - refactor project structure

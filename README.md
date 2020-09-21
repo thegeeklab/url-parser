@@ -1,9 +1,14 @@
 # url-parser
 
-[![Build Status](https://img.shields.io/drone/build/xoxys/url-parser?logo=drone)](https://cloud.drone.io/xoxys/url-parser)
+Simple command-line URL parser
+
+[![Build Status](https://img.shields.io/drone/build/thegeeklab/url-parser?logo=drone)](https://cloud.drone.io/thegeeklab/url-parser)
+[![Docker Hub](https://img.shields.io/badge/dockerhub-latest-blue.svg?logo=docker&logoColor=white)](https://hub.docker.com/r/thegeeklab/url-parser)
+[![Quay.io](https://img.shields.io/badge/quay-latest-blue.svg?logo=docker&logoColor=white)](https://quay.io/repository/thegeeklab/url-parser)
+[![Go Report Card](https://goreportcard.com/badge/github.com/thegeeklab/url-parser)](https://goreportcard.com/report/github.com/thegeeklab/url-parser)
 [![Codecov](https://img.shields.io/codecov/c/github/xoxys/url-parser)](https://codecov.io/gh/xoxys/url-parser)
-[![Go Report Card](https://goreportcard.com/badge/github.com/xoxys/url-parser)](https://goreportcard.com/report/github.com/xoxys/url-parser)
-[![License: MIT](https://img.shields.io/github/license/xoxys/url-parser)](LICENSE)
+[![Source: GitHub](https://img.shields.io/badge/source-github-blue.svg?logo=github&logoColor=white)](https://github.com/thegeeklab/url-parser)
+[![License: MIT](https://img.shields.io/github/license/thegeeklab/url-parser)](<[LICENSE](https://github.com/thegeeklab/url-parser/blob/master/LICENSE)>)
 
 Inspired by [herloct/url-parser](https://github.com/herloct/url-parser), a simple command-line utility for parsing URLs.
 
@@ -12,7 +17,7 @@ Inspired by [herloct/url-parser](https://github.com/herloct/url-parser), a simpl
 Prebuild multiarch binaries are availabe for Linux only:
 
 ```Shell
-curl -L https://github.com/xoxys/url-parser/releases/download/v0.1.0/url-parser-0.1.0-linux-amd64 > /usr/local/bin/url-parser
+curl -L https://github.com/thegeeklab/url-parser/releases/download/v0.1.0/url-parser-0.1.0-linux-amd64 > /usr/local/bin/url-parser
 chmod +x /usr/local/bin/url-parser
 url-parser --help
 ```
@@ -73,7 +78,3 @@ somevalue
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Maintainers and Contributors
-
-[Robert Kaussow](https://github.com/xoxys)

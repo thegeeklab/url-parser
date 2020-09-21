@@ -1,4 +1,4 @@
-package commands
+package command
 
 import (
 	"flag"
@@ -9,18 +9,25 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-type TestPortData struct {
+type TestPathData struct {
 	urlString string
+	pathIndex int
 	expected  string
 }
 
-func TestPort(t *testing.T) {
+func TestPath(t *testing.T) {
 	urlString := "postgres://user:pass@host.com:5432/path/to?key=value&other=other%20value#some-fragment"
 
-	tables := []TestPortData{
+	tables := []TestPathData{
 		{
 			urlString: urlString,
-			expected:  "5432",
+			pathIndex: -1,
+			expected:  "/path/to",
+		},
+		{
+			urlString: urlString,
+			pathIndex: 0,
+			expected:  "path",
 		},
 	}
 
@@ -28,12 +35,13 @@ func TestPort(t *testing.T) {
 		app := cli.NewApp()
 		set := flag.NewFlagSet("test", 0)
 		set.String("url", table.urlString, "test url")
+		set.Int("path-index", table.pathIndex, "index")
 
 		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { Port(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { Path(c) }))
 
 		if result != table.expected {
-			t.Fatalf("URL port `%v`, should be `%v`", result, table.expected)
+			t.Fatalf("URL path `%v`, should be `%v`", result, table.expected)
 		}
 	}
 }

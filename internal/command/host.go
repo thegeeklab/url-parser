@@ -1,4 +1,4 @@
-package commands
+package command
 
 import (
 	"fmt"
@@ -6,12 +6,12 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-// Port prints out the port from the url
-func Port(ctx *cli.Context) error {
+// Host prints out the host part from the url
+func Host(ctx *cli.Context) error {
 	parts := parseURL(ctx.String("url"))
 
 	if len(parts.Scheme) > 0 {
-		fmt.Println(parts.Port())
+		fmt.Println(parts.Hostname())
 	}
 	return nil
 }

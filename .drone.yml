@@ -71,13 +71,13 @@ steps:
   commands:
   - "[ -z \"${DRONE_TAG}\" ] && BUILD_VERSION=${DRONE_COMMIT_SHA:0:8} || BUILD_VERSION=${DRONE_TAG##v}"
   - mkdir -p release/
-  - cd cmd/github-releases-notifier && xgo -ldflags "-s -w -X main.version=$BUILD_VERSION" -tags netgo -targets 'linux/amd64,linux/arm-6,linux/arm64' -out github-releases-notifier .
+  - cd cmd/url-parser && xgo -ldflags "-s -w -X main.version=$BUILD_VERSION" -tags netgo -targets 'linux/amd64,linux/arm-6,linux/arm64' -out url-parser .
   - mv /build/* /drone/src/release/
 
 - name: executable
   image: alpine
   commands:
-  - $(find release/ -executable -type f | grep github-releases-notifier-linux-amd64) --help
+  - $(find release/ -executable -type f | grep url-parser-linux-amd64) --help
 
 - name: compress
   image: alpine
@@ -153,6 +153,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: 5ca11cf4dc76a28155711c9665abeab4a3e61a5bd8c819588a76ba8baef16cfe
+hmac: 863651dc0ce1a9591377f87fdfa917ef9926743c2dc5cc5e7fa1256d30af1909
 
 ...

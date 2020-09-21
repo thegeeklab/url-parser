@@ -97,7 +97,7 @@ local PipelineBuildBinaries = {
       commands: [
         '[ -z "${DRONE_TAG}" ] && BUILD_VERSION=${DRONE_COMMIT_SHA:0:8} || BUILD_VERSION=${DRONE_TAG##v}',
         'mkdir -p release/',
-        "cd cmd/github-releases-notifier && xgo -ldflags \"-s -w -X main.version=$BUILD_VERSION\" -tags netgo -targets 'linux/amd64,linux/arm-6,linux/arm64' -out github-releases-notifier .",
+        "cd cmd/url-parser && xgo -ldflags \"-s -w -X main.version=$BUILD_VERSION\" -tags netgo -targets 'linux/amd64,linux/arm-6,linux/arm64' -out url-parser .",
         'mv /build/* /drone/src/release/',
       ],
     },
@@ -105,7 +105,7 @@ local PipelineBuildBinaries = {
       name: 'executable',
       image: 'alpine',
       commands: [
-        '$(find release/ -executable -type f | grep github-releases-notifier-linux-amd64) --help',
+        '$(find release/ -executable -type f | grep url-parser-linux-amd64) --help',
       ],
     },
     {

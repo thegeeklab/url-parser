@@ -3,8 +3,6 @@
 Simple command-line URL parser
 
 [![Build Status](https://img.shields.io/drone/build/thegeeklab/url-parser?logo=drone)](https://cloud.drone.io/thegeeklab/url-parser)
-[![Docker Hub](https://img.shields.io/badge/dockerhub-latest-blue.svg?logo=docker&logoColor=white)](https://hub.docker.com/r/thegeeklab/url-parser)
-[![Quay.io](https://img.shields.io/badge/quay-latest-blue.svg?logo=docker&logoColor=white)](https://quay.io/repository/thegeeklab/url-parser)
 [![Go Report Card](https://goreportcard.com/badge/github.com/thegeeklab/url-parser)](https://goreportcard.com/report/github.com/thegeeklab/url-parser)
 [![Codecov](https://img.shields.io/codecov/c/github/xoxys/url-parser)](https://codecov.io/gh/xoxys/url-parser)
 [![Source: GitHub](https://img.shields.io/badge/source-github-blue.svg?logo=github&logoColor=white)](https://github.com/thegeeklab/url-parser)

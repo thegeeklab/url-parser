@@ -4,7 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/thegeeklab/url-parser)](https://goreportcard.com/report/github.com/thegeeklab/url-parser)
 [![Codecov](https://img.shields.io/codecov/c/github/thegeeklab/url-parser)](https://codecov.io/gh/thegeeklab/url-parser)
 [![GitHub contributors](https://img.shields.io/github/contributors/thegeeklab/url-parser)](https://github.com/thegeeklab/url-parser/graphs/contributors)
-[![License: MIT](https://img.shields.io/github/license/thegeeklab/url-parser)](<[LICENSE](https://github.com/thegeeklab/url-parser/blob/master/LICENSE)>)
+[![License: MIT](https://img.shields.io/github/license/thegeeklab/url-parser)](https://github.com/thegeeklab/url-parser/blob/master/LICENSE)
 
 Inspired by [herloct/url-parser](https://github.com/herloct/url-parser), a simple command-line utility for parsing URLs.
 

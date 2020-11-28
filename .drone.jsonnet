@@ -1,5 +1,6 @@
 local PipelineTest = {
   kind: 'pipeline',
+  image_pull_secrets: ['docker_config'],
   name: 'test',
   platform: {
     os: 'linux',
@@ -85,6 +86,7 @@ local PipelineTest = {
 
 local PipelineBuildBinaries = {
   kind: 'pipeline',
+  image_pull_secrets: ['docker_config'],
   name: 'build-binaries',
   platform: {
     os: 'linux',
@@ -153,6 +155,7 @@ local PipelineBuildBinaries = {
 
 local PipelineNotifications = {
   kind: 'pipeline',
+  image_pull_secrets: ['docker_config'],
   name: 'notifications',
   platform: {
     os: 'linux',

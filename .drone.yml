@@ -51,6 +51,9 @@ volumes:
 - name: gopath
   temp: {}
 
+image_pull_secrets:
+- docker_config
+
 trigger:
   ref:
   - refs/heads/master
@@ -105,6 +108,9 @@ steps:
     ref:
     - refs/tags/**
 
+image_pull_secrets:
+- docker_config
+
 trigger:
   ref:
   - refs/heads/master
@@ -140,6 +146,9 @@ steps:
     - success
     - failure
 
+image_pull_secrets:
+- docker_config
+
 trigger:
   ref:
   - refs/heads/master
@@ -153,6 +162,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: 863651dc0ce1a9591377f87fdfa917ef9926743c2dc5cc5e7fa1256d30af1909
+hmac: 4e6b6ec60c6a01f20ded56de08f051f1e7baaf74dda8c649d839d5a8053a999e
 
 ...

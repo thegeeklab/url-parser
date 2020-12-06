@@ -1,2 +1,2 @@
 - INTERNAL
-  - refactor project structure
+  - switch to go 1.15

@@ -79,7 +79,7 @@ local PipelineTest = {
     },
   ],
   trigger: {
-    ref: ['refs/heads/master', 'refs/tags/**', 'refs/pull/**'],
+    ref: ['refs/heads/main', 'refs/tags/**', 'refs/pull/**'],
   },
 };
 
@@ -149,7 +149,7 @@ local PipelineBuildBinaries = {
     'test',
   ],
   trigger: {
-    ref: ['refs/heads/master', 'refs/tags/**', 'refs/pull/**'],
+    ref: ['refs/heads/main', 'refs/tags/**', 'refs/pull/**'],
   },
 };
 
@@ -181,7 +181,7 @@ local PipelineNotifications = {
     'build-binaries',
   ],
   trigger: {
-    ref: ['refs/heads/master', 'refs/tags/**'],
+    ref: ['refs/heads/main', 'refs/tags/**'],
     status: ['success', 'failure'],
   },
 };

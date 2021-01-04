@@ -56,7 +56,7 @@ image_pull_secrets:
 
 trigger:
   ref:
-  - refs/heads/master
+  - refs/heads/main
   - refs/tags/**
   - refs/pull/**
 
@@ -113,7 +113,7 @@ image_pull_secrets:
 
 trigger:
   ref:
-  - refs/heads/master
+  - refs/heads/main
   - refs/tags/**
   - refs/pull/**
 
@@ -151,7 +151,7 @@ image_pull_secrets:
 
 trigger:
   ref:
-  - refs/heads/master
+  - refs/heads/main
   - refs/tags/**
   status:
   - success
@@ -162,6 +162,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: 5491f814e4edd00e12047cd91988765ed1af400a4a30ab4401ca2015096ab4f4
+hmac: cb861ef547d389365c74e52d97940109686394d848bda333b77eaa1b50a59c5a
 
 ...

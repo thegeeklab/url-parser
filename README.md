@@ -4,7 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/thegeeklab/url-parser)](https://goreportcard.com/report/github.com/thegeeklab/url-parser)
 [![Codecov](https://img.shields.io/codecov/c/github/thegeeklab/url-parser)](https://codecov.io/gh/thegeeklab/url-parser)
 [![GitHub contributors](https://img.shields.io/github/contributors/thegeeklab/url-parser)](https://github.com/thegeeklab/url-parser/graphs/contributors)
-[![License: MIT](https://img.shields.io/github/license/thegeeklab/url-parser)](https://github.com/thegeeklab/url-parser/blob/master/LICENSE)
+[![License: MIT](https://img.shields.io/github/license/thegeeklab/url-parser)](https://github.com/thegeeklab/url-parser/blob/main/LICENSE)
 
 Inspired by [herloct/url-parser](https://github.com/herloct/url-parser), a simple command-line utility for parsing URLs.
 
@@ -74,8 +74,8 @@ somevalue
 ## Contributors
 
 Special thanks goes to all [contributors](https://github.com/thegeeklab/url-parser/graphs/contributors). If you would like to contribute,
-please see the [instructions](https://github.com/thegeeklab/url-parser/blob/master/CONTRIBUTING.md).
+please see the [instructions](https://github.com/thegeeklab/url-parser/blob/main/CONTRIBUTING.md).
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/thegeeklab/url-parser/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/thegeeklab/url-parser/blob/main/LICENSE) file for details.

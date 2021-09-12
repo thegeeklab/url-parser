@@ -1,114 +1,103 @@
 ---
+image_pull_secrets:
+- docker_config
 kind: pipeline
 name: test
-
 platform:
-  os: linux
   arch: amd64
-
+  os: linux
 steps:
-- name: staticcheck
-  image: golang:1.16
-  commands:
+- commands:
   - go run honnef.co/go/tools/cmd/staticcheck ./...
+  image: golang:1.16
+  name: staticcheck
   volumes:
   - name: gopath
     path: /go
-
-- name: lint
-  image: golang:1.16
-  commands:
+- commands:
   - go run golang.org/x/lint/golint -set_exit_status ./...
+  image: golang:1.16
+  name: lint
   volumes:
   - name: gopath
     path: /go
-
-- name: vet
-  image: golang:1.16
-  commands:
+- commands:
   - go vet ./...
-  volumes:
-  - name: gopath
-    path: /go
-
-- name: test
   image: golang:1.16
-  commands:
-  - go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+  name: vet
   volumes:
   - name: gopath
     path: /go
-
-- name: coverage
-  image: plugins/codecov
+- commands:
+  - go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+  image: golang:1.16
+  name: test
+  volumes:
+  - name: gopath
+    path: /go
+- image: plugins/codecov
+  name: coverage
   settings:
     files:
     - coverage.txt
     token:
       from_secret: codecov_token
-
-volumes:
-- name: gopath
-  temp: {}
-
-image_pull_secrets:
-- docker_config
-
 trigger:
   ref:
   - refs/heads/main
   - refs/tags/**
   - refs/pull/**
-
+volumes:
+- name: gopath
+  temp: {}
 ---
+depends_on:
+- test
+image_pull_secrets:
+- docker_config
 kind: pipeline
 name: build-binaries
-
 platform:
-  os: linux
   arch: amd64
-
+  os: linux
 steps:
-- name: build
-  image: techknowlogick/xgo:go-1.16.x
-  commands:
-  - "[ -z \"${DRONE_TAG}\" ] && BUILD_VERSION=${DRONE_COMMIT_SHA:0:8} || BUILD_VERSION=${DRONE_TAG##v}"
+- commands:
+  - '[ -z "${DRONE_TAG}" ] && BUILD_VERSION=${DRONE_COMMIT_SHA:0:8} || BUILD_VERSION=${DRONE_TAG##v}'
   - mkdir -p release/
-  - cd cmd/url-parser && xgo -ldflags "-s -w -X main.version=$BUILD_VERSION" -tags netgo -targets 'linux/amd64,linux/arm-6,linux/arm-7,linux/arm64' -out url-parser .
+  - cd cmd/url-parser && xgo -ldflags "-s -w -X main.version=$BUILD_VERSION" -tags
+    netgo -targets 'linux/amd64,linux/arm-6,linux/arm-7,linux/arm64' -out url-parser
+    .
   - mv /build/* /drone/src/release/
   - ls -l /drone/src/release/
-
-- name: executable
-  image: alpine
-  commands:
+  image: techknowlogick/xgo:go-1.16.x
+  name: build
+- commands:
   - $(find release/ -executable -type f | grep url-parser-linux-amd64) --help
-
-- name: compress
   image: alpine
-  commands:
+  name: executable
+- commands:
   - apk add upx
   - find release/ -maxdepth 1 -executable -type f -exec upx {} \;
   - ls -lh release/
-
-- name: checksum
   image: alpine
-  commands:
+  name: compress
+- commands:
   - cd release/ && sha256sum * > sha256sum.txt
-
-- name: changelog-generate
-  image: thegeeklab/git-chglog
-  commands:
+  image: alpine
+  name: checksum
+- commands:
   - git fetch -tq
-  - git-chglog --no-color --no-emoji -o CHANGELOG.md ${DRONE_TAG:---next-tag unreleased unreleased}
-
-- name: changelog-format
-  image: thegeeklab/alpine-tools
-  commands:
+  - git-chglog --no-color --no-emoji -o CHANGELOG.md ${DRONE_TAG:---next-tag unreleased
+    unreleased}
+  image: thegeeklab/git-chglog
+  name: changelog-generate
+- commands:
   - prettier CHANGELOG.md
   - prettier -w CHANGELOG.md
-
-- name: publish
-  image: plugins/github-release
+  image: thegeeklab/alpine-tools
+  name: changelog-format
+- image: plugins/github-release
+  name: publish
   settings:
     api_key:
       from_secret: github_token
@@ -120,30 +109,24 @@ steps:
   when:
     ref:
     - refs/tags/**
-
-image_pull_secrets:
-- docker_config
-
 trigger:
   ref:
   - refs/heads/main
   - refs/tags/**
   - refs/pull/**
-
-depends_on:
-- test
-
 ---
+depends_on:
+- build-binaries
+image_pull_secrets:
+- docker_config
 kind: pipeline
 name: notifications
-
 platform:
-  os: linux
   arch: amd64
-
+  os: linux
 steps:
-- name: matrix
-  image: plugins/matrix
+- image: plugins/matrix
+  name: matrix
   settings:
     homeserver:
       from_secret: matrix_homeserver
@@ -151,17 +134,15 @@ steps:
       from_secret: matrix_password
     roomid:
       from_secret: matrix_roomid
-    template: "Status: **{{ build.status }}**<br/> Build: [{{ repo.Owner }}/{{ repo.Name }}]({{ build.link }}) ({{ build.branch }}) by {{ build.author }}<br/> Message: {{ build.message }}"
+    template: 'Status: **{{ build.status }}**<br/> Build: [{{ repo.Owner }}/{{ repo.Name
+      }}]({{ build.link }}) ({{ build.branch }}) by {{ build.author }}<br/> Message:
+      {{ build.message }}'
     username:
       from_secret: matrix_username
   when:
     status:
     - success
     - failure
-
-image_pull_secrets:
-- docker_config
-
 trigger:
   ref:
   - refs/heads/main
@@ -169,12 +150,8 @@ trigger:
   status:
   - success
   - failure
-
-depends_on:
-- build-binaries
-
 ---
 kind: signature
-hmac: 7fdbba67121342a2cc89d474cba472b10a0dc466f40ca82fd2cfa8414ae78f54
+hmac: ee57fc59656c8ed6edddb3fd63aab7119702447bc8f6185cc4798a21dbac5f5e
 
 ...

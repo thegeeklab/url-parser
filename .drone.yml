@@ -1,157 +1,180 @@
 ---
-image_pull_secrets:
-- docker_config
 kind: pipeline
 name: test
+
 platform:
-  arch: amd64
   os: linux
+  arch: amd64
+
 steps:
-- commands:
-  - go run honnef.co/go/tools/cmd/staticcheck ./...
-  image: golang:1.16
-  name: staticcheck
-  volumes:
+  - name: staticcheck
+    image: golang:1.16
+    commands:
+      - go run honnef.co/go/tools/cmd/staticcheck ./...
+    volumes:
+      - name: gopath
+        path: /go
+
+  - name: lint
+    image: golang:1.16
+    commands:
+      - go run golang.org/x/lint/golint -set_exit_status ./...
+    volumes:
+      - name: gopath
+        path: /go
+
+  - name: vet
+    image: golang:1.16
+    commands:
+      - go vet ./...
+    volumes:
+      - name: gopath
+        path: /go
+
+  - name: test
+    image: golang:1.16
+    commands:
+      - go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+    volumes:
+      - name: gopath
+        path: /go
+
+  - name: coverage
+    image: plugins/codecov
+    settings:
+      files:
+        - coverage.txt
+      token:
+        from_secret: codecov_token
+
+volumes:
   - name: gopath
-    path: /go
-- commands:
-  - go run golang.org/x/lint/golint -set_exit_status ./...
-  image: golang:1.16
-  name: lint
-  volumes:
-  - name: gopath
-    path: /go
-- commands:
-  - go vet ./...
-  image: golang:1.16
-  name: vet
-  volumes:
-  - name: gopath
-    path: /go
-- commands:
-  - go test -race -coverprofile=coverage.txt -covermode=atomic ./...
-  image: golang:1.16
-  name: test
-  volumes:
-  - name: gopath
-    path: /go
-- image: plugins/codecov
-  name: coverage
-  settings:
-    files:
-    - coverage.txt
-    token:
-      from_secret: codecov_token
+    temp: {}
+
+image_pull_secrets:
+  - docker_config
+
 trigger:
   ref:
-  - refs/heads/main
-  - refs/tags/**
-  - refs/pull/**
-volumes:
-- name: gopath
-  temp: {}
+    - refs/heads/main
+    - refs/tags/**
+    - refs/pull/**
+
 ---
-depends_on:
-- test
-image_pull_secrets:
-- docker_config
 kind: pipeline
 name: build-binaries
+
 platform:
-  arch: amd64
   os: linux
+  arch: amd64
+
 steps:
-- commands:
-  - '[ -z "${DRONE_TAG}" ] && BUILD_VERSION=${DRONE_COMMIT_SHA:0:8} || BUILD_VERSION=${DRONE_TAG##v}'
-  - mkdir -p release/
-  - cd cmd/url-parser && xgo -ldflags "-s -w -X main.version=$BUILD_VERSION" -tags
-    netgo -targets 'linux/amd64,linux/arm-6,linux/arm-7,linux/arm64' -out url-parser
-    .
-  - mv /build/* /drone/src/release/
-  - ls -l /drone/src/release/
-  image: techknowlogick/xgo:go-1.16.x
-  name: build
-- commands:
-  - $(find release/ -executable -type f | grep url-parser-linux-amd64) --help
-  image: alpine
-  name: executable
-- commands:
-  - apk add upx
-  - find release/ -maxdepth 1 -executable -type f -exec upx {} \;
-  - ls -lh release/
-  image: alpine
-  name: compress
-- commands:
-  - cd release/ && sha256sum * > sha256sum.txt
-  image: alpine
-  name: checksum
-- commands:
-  - git fetch -tq
-  - git-chglog --no-color --no-emoji -o CHANGELOG.md ${DRONE_TAG:---next-tag unreleased
-    unreleased}
-  image: thegeeklab/git-chglog
-  name: changelog-generate
-- commands:
-  - prettier CHANGELOG.md
-  - prettier -w CHANGELOG.md
-  image: thegeeklab/alpine-tools
-  name: changelog-format
-- image: plugins/github-release
-  name: publish
-  settings:
-    api_key:
-      from_secret: github_token
-    files:
-    - release/*
-    note: CHANGELOG.md
-    overwrite: true
-    title: ${DRONE_TAG}
-  when:
-    ref:
-    - refs/tags/**
+  - name: build
+    image: techknowlogick/xgo:go-1.16.x
+    commands:
+      - "[ -z \"${DRONE_TAG}\" ] && BUILD_VERSION=${DRONE_COMMIT_SHA:0:8} || BUILD_VERSION=${DRONE_TAG##v}"
+      - mkdir -p release/
+      - cd cmd/url-parser && xgo -ldflags "-s -w -X main.version=$BUILD_VERSION" -tags netgo -targets 'linux/amd64,linux/arm-6,linux/arm-7,linux/arm64' -out url-parser .
+      - mv /build/* /drone/src/release/
+      - ls -l /drone/src/release/
+
+  - name: executable
+    image: alpine
+    commands:
+      - $(find release/ -executable -type f | grep url-parser-linux-amd64) --help
+
+  - name: compress
+    image: alpine
+    commands:
+      - apk add upx
+      - find release/ -maxdepth 1 -executable -type f -exec upx {} \;
+      - ls -lh release/
+
+  - name: checksum
+    image: alpine
+    commands:
+      - cd release/ && sha256sum * > sha256sum.txt
+
+  - name: changelog-generate
+    image: thegeeklab/git-chglog
+    commands:
+      - git fetch -tq
+      - git-chglog --no-color --no-emoji -o CHANGELOG.md ${DRONE_TAG:---next-tag unreleased unreleased}
+
+  - name: changelog-format
+    image: thegeeklab/alpine-tools
+    commands:
+      - prettier CHANGELOG.md
+      - prettier -w CHANGELOG.md
+
+  - name: publish
+    image: plugins/github-release
+    settings:
+      api_key:
+        from_secret: github_token
+      files:
+        - release/*
+      note: CHANGELOG.md
+      overwrite: true
+      title: ${DRONE_TAG}
+    when:
+      ref:
+        - refs/tags/**
+
+image_pull_secrets:
+  - docker_config
+
 trigger:
   ref:
-  - refs/heads/main
-  - refs/tags/**
-  - refs/pull/**
----
+    - refs/heads/main
+    - refs/tags/**
+    - refs/pull/**
+
 depends_on:
-- build-binaries
-image_pull_secrets:
-- docker_config
+  - test
+
+---
 kind: pipeline
 name: notifications
+
 platform:
-  arch: amd64
   os: linux
+  arch: amd64
+
 steps:
-- image: plugins/matrix
-  name: matrix
-  settings:
-    homeserver:
-      from_secret: matrix_homeserver
-    password:
-      from_secret: matrix_password
-    roomid:
-      from_secret: matrix_roomid
-    template: 'Status: **{{ build.status }}**<br/> Build: [{{ repo.Owner }}/{{ repo.Name
-      }}]({{ build.link }}) ({{ build.branch }}) by {{ build.author }}<br/> Message:
-      {{ build.message }}'
-    username:
-      from_secret: matrix_username
-  when:
-    status:
-    - success
-    - failure
+  - name: matrix
+    image: thegeeklab/drone-matrix
+    settings:
+      homeserver:
+        from_secret: matrix_homeserver
+      password:
+        from_secret: matrix_password
+      roomid:
+        from_secret: matrix_roomid
+      template: "Status: **{{ build.Status }}**<br/> Build: [{{ repo.Owner }}/{{ repo.Name }}]({{ build.Link }}) ({{ build.Branch }}) by {{ commit.Author }}<br/> Message: {{ commit.Message }}"
+      username:
+        from_secret: matrix_username
+    when:
+      status:
+        - success
+        - failure
+
+image_pull_secrets:
+  - docker_config
+
 trigger:
   ref:
-  - refs/heads/main
-  - refs/tags/**
+    - refs/heads/main
+    - refs/tags/**
   status:
-  - success
-  - failure
+    - success
+    - failure
+
+depends_on:
+  - build-binaries
+
 ---
 kind: signature
-hmac: ee57fc59656c8ed6edddb3fd63aab7119702447bc8f6185cc4798a21dbac5f5e
+hmac: 0eb84b9566ce793a5df72fe1035db95dedf02132901e8e3d24dcf93fc7e864ca
 
 ...

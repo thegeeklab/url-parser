@@ -8,7 +8,7 @@
 
 Inspired by [herloct/url-parser](https://github.com/herloct/url-parser), a simple command-line utility for parsing URLs.
 
-## Instalation
+## Installation
 
 Prebuild multiarch binaries are availabe for Linux only:
 
@@ -16,6 +16,19 @@ Prebuild multiarch binaries are availabe for Linux only:
 curl -L https://github.com/thegeeklab/url-parser/releases/download/v0.1.0/url-parser-0.1.0-linux-amd64 > /usr/local/bin/url-parser
 chmod +x /usr/local/bin/url-parser
 url-parser --help
+```
+
+## Build
+
+Build the binary from source with the following command:
+
+```Shell
+export GOOS=linux
+export GOARCH=amd64
+export CGO_ENABLED=0
+export GO111MODULE=on
+
+go build -v -a -tags netgo -o release/url-parser ./cmd/url-parser/
 ```
 
 ## Usage

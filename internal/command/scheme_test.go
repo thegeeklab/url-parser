@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/kami-zh/go-capturer"
 	"github.com/urfave/cli/v2"
+	"github.com/zenizh/go-capturer"
 )
 
 type TestSchemeData struct {

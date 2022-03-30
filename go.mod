@@ -7,7 +7,5 @@ require (
 	github.com/urfave/cli/v2 v2.4.0
 	github.com/zenizh/go-capturer v0.0.0-20211219060012-52ea6c8fed04
 	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616
-	golang.org/x/mod v0.4.2 // indirect
-	golang.org/x/sys v0.0.0-20210507161434-a76c4d0a0096 // indirect
-	honnef.co/go/tools v0.2.2
+	honnef.co/go/tools v0.3.0
 )

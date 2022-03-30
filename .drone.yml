@@ -70,7 +70,7 @@ platform:
 
 steps:
   - name: build
-    image: techknowlogick/xgo:go-1.16.x
+    image: techknowlogick/xgo:go-1.18.x
     commands:
       - "[ -z \"${DRONE_TAG}\" ] && BUILD_VERSION=${DRONE_COMMIT_SHA:0:8} || BUILD_VERSION=${DRONE_TAG##v}"
       - mkdir -p release/
@@ -175,6 +175,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: cdaf27697e21ed0855b59f5fbd5866d847bba36c04374e3d65c1b9b1e045b14b
+hmac: 09c7d46d1ca382b979a28ac23024bea55151074f05d9a61e03896e82145a6d04
 
 ...

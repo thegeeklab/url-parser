@@ -95,7 +95,7 @@ local PipelineBuildBinaries = {
   steps: [
     {
       name: 'build',
-      image: 'techknowlogick/xgo:go-1.16.x',
+      image: 'techknowlogick/xgo:go-1.18.x',
       commands: [
         '[ -z "${DRONE_TAG}" ] && BUILD_VERSION=${DRONE_COMMIT_SHA:0:8} || BUILD_VERSION=${DRONE_TAG##v}',
         'mkdir -p release/',

@@ -30,7 +30,7 @@ func TestRun(t *testing.T) {
 		set.String("url", table.urlString, "test url")
 
 		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { Run(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Run(c) }))
 
 		if result != table.expected {
 			t.Fatalf("URL `%v`, should be `%v`", result, table.expected)

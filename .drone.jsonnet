@@ -1,6 +1,5 @@
 local PipelineTest = {
   kind: 'pipeline',
-  image_pull_secrets: ['docker_config'],
   name: 'test',
   platform: {
     os: 'linux',
@@ -8,14 +7,14 @@ local PipelineTest = {
   },
   steps: [
     {
-      name: 'staticcheck',
+      name: 'deps',
       image: 'golang:1.18',
       commands: [
-        'go run honnef.co/go/tools/cmd/staticcheck ./...',
+        'make deps',
       ],
       volumes: [
         {
-          name: 'gopath',
+          name: 'godeps',
           path: '/go',
         },
       ],
@@ -24,24 +23,11 @@ local PipelineTest = {
       name: 'lint',
       image: 'golang:1.18',
       commands: [
-        'go run golang.org/x/lint/golint -set_exit_status ./...',
+        'make lint',
       ],
       volumes: [
         {
-          name: 'gopath',
-          path: '/go',
-        },
-      ],
-    },
-    {
-      name: 'vet',
-      image: 'golang:1.18',
-      commands: [
-        'go vet ./...',
-      ],
-      volumes: [
-        {
-          name: 'gopath',
+          name: 'godeps',
           path: '/go',
         },
       ],
@@ -50,11 +36,11 @@ local PipelineTest = {
       name: 'test',
       image: 'golang:1.18',
       commands: [
-        'go test -race -coverprofile=coverage.txt -covermode=atomic ./...',
+        'make test',
       ],
       volumes: [
         {
-          name: 'gopath',
+          name: 'godeps',
           path: '/go',
         },
       ],
@@ -74,7 +60,7 @@ local PipelineTest = {
   ],
   volumes: [
     {
-      name: 'gopath',
+      name: 'godeps',
       temp: {},
     },
   ],
@@ -86,7 +72,6 @@ local PipelineTest = {
 
 local PipelineBuildBinaries = {
   kind: 'pipeline',
-  image_pull_secrets: ['docker_config'],
   name: 'build-binaries',
   platform: {
     os: 'linux',
@@ -97,34 +82,14 @@ local PipelineBuildBinaries = {
       name: 'build',
       image: 'techknowlogick/xgo:go-1.18.x',
       commands: [
-        '[ -z "${DRONE_TAG}" ] && BUILD_VERSION=${DRONE_COMMIT_SHA:0:8} || BUILD_VERSION=${DRONE_TAG##v}',
-        'mkdir -p release/',
-        "cd cmd/url-parser && xgo -ldflags \"-s -w -X main.version=$BUILD_VERSION\" -tags netgo -targets 'linux/amd64,linux/arm-6,linux/arm-7,linux/arm64' -out url-parser .",
-        'mv /build/* /drone/src/release/',
-        'ls -l /drone/src/release/',
+        'make release',
       ],
     },
     {
       name: 'executable',
       image: 'alpine',
       commands: [
-        '$(find release/ -executable -type f | grep url-parser-linux-amd64) --help',
-      ],
-    },
-    {
-      name: 'compress',
-      image: 'alpine',
-      commands: [
-        'apk add upx',
-        'find release/ -maxdepth 1 -executable -type f -exec upx {} \\;',
-        'ls -lh release/',
-      ],
-    },
-    {
-      name: 'checksum',
-      image: 'alpine',
-      commands: [
-        'cd release/ && sha256sum * > sha256sum.txt',
+        '$(find dist/ -executable -type f -iname ${DRONE_REPO_NAME}-linux-amd64) --help',
       ],
     },
     {
@@ -151,7 +116,7 @@ local PipelineBuildBinaries = {
         api_key: {
           from_secret: 'github_token',
         },
-        files: ['release/*'],
+        files: ['dist/*'],
         title: '${DRONE_TAG}',
         note: 'CHANGELOG.md',
       },
@@ -172,7 +137,6 @@ local PipelineBuildBinaries = {
 
 local PipelineNotifications = {
   kind: 'pipeline',
-  image_pull_secrets: ['docker_config'],
   name: 'notifications',
   platform: {
     os: 'linux',

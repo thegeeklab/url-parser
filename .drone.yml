@@ -35,7 +35,7 @@ steps:
     image: plugins/codecov
     settings:
       files:
-        - coverage.txt
+        - coverage.out
       token:
         from_secret: codecov_token
 
@@ -142,6 +142,6 @@ depends_on:
 
 ---
 kind: signature
-hmac: 645eb9d219df851e7f6298043848802ed3578f5194afd6288385cd235fce782d
+hmac: abe0019dfa9264a9509adaaa988e75b60d344269a70b699568bf0615035ecd6a
 
 ...

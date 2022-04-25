@@ -53,7 +53,7 @@ local PipelineTest = {
           from_secret: 'codecov_token',
         },
         files: [
-          'coverage.txt',
+          'coverage.out',
         ],
       },
     },

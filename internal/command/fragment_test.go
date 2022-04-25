@@ -30,7 +30,7 @@ func TestFragment(t *testing.T) {
 		set.String("url", table.urlString, "test url")
 
 		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { Fragment(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Fragment(c) }))
 
 		if result != table.expected {
 			t.Fatalf("URL fragment `%v`, should be `%v`", result, table.expected)

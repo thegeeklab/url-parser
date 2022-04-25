@@ -30,7 +30,7 @@ func TestPort(t *testing.T) {
 		set.String("url", table.urlString, "test url")
 
 		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { Port(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Port(c) }))
 
 		if result != table.expected {
 			t.Fatalf("URL port `%v`, should be `%v`", result, table.expected)

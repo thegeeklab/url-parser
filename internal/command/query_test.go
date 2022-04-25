@@ -37,7 +37,7 @@ func TestQuery(t *testing.T) {
 		set.String("query-field", table.QueryField, "index")
 
 		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { Query(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Query(c) }))
 
 		if result != table.expected {
 			t.Fatalf("URL query `%v`, should be `%v`", result, table.expected)

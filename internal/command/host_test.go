@@ -30,7 +30,7 @@ func TestHost(t *testing.T) {
 		set.String("url", table.urlString, "test url")
 
 		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { Host(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Host(c) }))
 
 		if result != table.expected {
 			t.Fatalf("URL host `%v`, should be `%v`", result, table.expected)

@@ -28,7 +28,7 @@ func Path(ctx *cli.Context) error {
 		if i > -1 {
 			path := strings.Split(parts.Path, "/")
 
-			if i = i + 1; i < len(path) {
+			if i++; i < len(path) {
 				fmt.Println(path[i])
 			}
 		} else {

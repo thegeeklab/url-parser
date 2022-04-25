@@ -30,7 +30,7 @@ func TestPassword(t *testing.T) {
 		set.String("url", table.urlString, "test url")
 
 		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { Password(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Password(c) }))
 
 		if result != table.expected {
 			t.Fatalf("URL password `%v`, should be `%v`", result, table.expected)

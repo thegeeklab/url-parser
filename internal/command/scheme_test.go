@@ -30,7 +30,7 @@ func TestScheme(t *testing.T) {
 		set.String("url", table.urlString, "test url")
 
 		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { Scheme(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Scheme(c) }))
 
 		if result != table.expected {
 			t.Fatalf("URL scheme `%v`, should be `%v`", result, table.expected)

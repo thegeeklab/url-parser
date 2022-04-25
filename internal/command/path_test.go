@@ -38,7 +38,7 @@ func TestPath(t *testing.T) {
 		set.Int("path-index", table.pathIndex, "index")
 
 		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { Path(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Path(c) }))
 
 		if result != table.expected {
 			t.Fatalf("URL path `%v`, should be `%v`", result, table.expected)

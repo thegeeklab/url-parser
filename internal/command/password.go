@@ -6,7 +6,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-// Password prints out the password part from url
+// Password prints out the password part from url.
 func Password(ctx *cli.Context) error {
 	parts := parseURL(ctx.String("url"))
 

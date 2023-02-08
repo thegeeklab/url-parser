@@ -7,7 +7,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-// PathFlags defines flags for path subcommand
+// PathFlags defines flags for path subcommand.
 func PathFlags() []cli.Flag {
 	return []cli.Flag{
 		&cli.IntFlag{
@@ -19,7 +19,7 @@ func PathFlags() []cli.Flag {
 	}
 }
 
-// Path prints out the path part from url
+// Path prints out the path part from url.
 func Path(ctx *cli.Context) error {
 	parts := parseURL(ctx.String("url"))
 	i := ctx.Int("path-index")

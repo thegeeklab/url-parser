@@ -6,7 +6,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-// QueryFlags defines flags for query subcommand
+// QueryFlags defines flags for query subcommand.
 func QueryFlags() []cli.Flag {
 	return []cli.Flag{
 		&cli.StringFlag{
@@ -17,7 +17,7 @@ func QueryFlags() []cli.Flag {
 	}
 }
 
-// Query prints out the query part from url
+// Query prints out the query part from url.
 func Query(ctx *cli.Context) error {
 	parts := parseURL(ctx.String("url"))
 	f := ctx.String("query-field")

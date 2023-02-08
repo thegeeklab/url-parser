@@ -8,6 +8,7 @@ type TestParseData struct {
 }
 
 func TestParseURL(t *testing.T) {
+	//nolint:goconst
 	urlString := "postgres://user:pass@host.com:5432/path/to?key=value&other=other%20value#some-fragment"
 
 	tables := []TestParseData{

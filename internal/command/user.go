@@ -6,7 +6,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-// User prints out the user part from url
+// User prints out the user part from url.
 func User(ctx *cli.Context) error {
 	parts := parseURL(ctx.String("url"))
 
@@ -15,5 +15,6 @@ func User(ctx *cli.Context) error {
 			fmt.Println(parts.User.Username())
 		}
 	}
+
 	return nil
 }

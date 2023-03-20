@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/sirupsen/logrus v1.9.0
-	github.com/urfave/cli/v2 v2.24.3
+	github.com/urfave/cli/v2 v2.25.0
 	github.com/zenizh/go-capturer v0.0.0-20211219060012-52ea6c8fed04
 )
 

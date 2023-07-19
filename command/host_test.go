@@ -1,17 +1,17 @@
 package command
 
 import (
-	"flag"
 	"strings"
 	"testing"
 
+	"github.com/thegeeklab/url-parser/config"
 	"github.com/urfave/cli/v2"
 	"github.com/zenizh/go-capturer"
 )
 
 type TestHostnameData struct {
-	urlString string
-	expected  string
+	config   *config.Config
+	expected string
 }
 
 func TestHost(t *testing.T) {
@@ -19,18 +19,16 @@ func TestHost(t *testing.T) {
 
 	tables := []TestHostnameData{
 		{
-			urlString: urlString,
-			expected:  "host.com",
+			config:   &config.Config{URL: urlString},
+			expected: "host.com",
 		},
 	}
 
 	for _, table := range tables {
 		app := cli.NewApp()
-		set := flag.NewFlagSet("test", 0)
-		set.String("url", table.urlString, "test url")
+		ctx := cli.NewContext(app, nil, nil)
 
-		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Host(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Host(table.config)(ctx) }))
 
 		if result != table.expected {
 			t.Fatalf("URL host `%v`, should be `%v`", result, table.expected)

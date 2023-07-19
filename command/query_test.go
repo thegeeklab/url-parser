@@ -1,16 +1,16 @@
 package command
 
 import (
-	"flag"
 	"strings"
 	"testing"
 
+	"github.com/thegeeklab/url-parser/config"
 	"github.com/urfave/cli/v2"
 	"github.com/zenizh/go-capturer"
 )
 
 type TestQueryData struct {
-	urlString  string
+	config     *config.Config
 	QueryField string
 	expected   string
 }
@@ -20,24 +20,21 @@ func TestQuery(t *testing.T) {
 
 	tables := []TestQueryData{
 		{
-			urlString: urlString,
-			expected:  "key=value&other=other%20value",
+			config:   &config.Config{URL: urlString},
+			expected: "key=value&other=other%20value",
 		},
 		{
-			urlString:  urlString,
-			QueryField: "other",
-			expected:   "other value",
+			config: &config.Config{URL: urlString, QueryField: "other"},
+
+			expected: "other value",
 		},
 	}
 
 	for _, table := range tables {
 		app := cli.NewApp()
-		set := flag.NewFlagSet("test", 0)
-		set.String("url", table.urlString, "test url")
-		set.String("query-field", table.QueryField, "index")
+		ctx := cli.NewContext(app, nil, nil)
 
-		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Query(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Query(table.config)(ctx) }))
 
 		if result != table.expected {
 			t.Fatalf("URL query `%v`, should be `%v`", result, table.expected)

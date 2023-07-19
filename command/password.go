@@ -8,9 +8,9 @@ import (
 )
 
 // Password prints out the password part from url.
-func Password(config *config.Config) cli.ActionFunc {
+func Password(cfg *config.Config) cli.ActionFunc {
 	return func(ctx *cli.Context) error {
-		parts := parseURL(config.URL)
+		parts := parseURL(cfg.URL)
 
 		if parts.User != nil {
 			pw, _ := parts.User.Password()

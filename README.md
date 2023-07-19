@@ -53,6 +53,7 @@ COMMANDS:
 
 GLOBAL OPTIONS:
    --url value    source url to parse [$URL_PARSER_URL]
+   --stdin        read url to parse from stdin (default: false) [$URL_PARSER_STDIN]
    --help, -h     show help
    --version, -v  print the version
 ```

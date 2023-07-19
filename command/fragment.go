@@ -8,9 +8,9 @@ import (
 )
 
 // Fragment prints out the fragment part from the url.
-func Fragment(config *config.Config) cli.ActionFunc {
+func Fragment(cfg *config.Config) cli.ActionFunc {
 	return func(ctx *cli.Context) error {
-		parts := parseURL(config.URL)
+		parts := parseURL(cfg.URL)
 
 		if len(parts.Scheme) > 0 {
 			fmt.Println(parts.Fragment)

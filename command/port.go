@@ -8,9 +8,9 @@ import (
 )
 
 // Port prints out the port from the url.
-func Port(config *config.Config) cli.ActionFunc {
+func Port(cfg *config.Config) cli.ActionFunc {
 	return func(ctx *cli.Context) error {
-		parts := parseURL(config.URL)
+		parts := parseURL(cfg.URL)
 
 		if len(parts.Scheme) > 0 {
 			fmt.Println(parts.Port())

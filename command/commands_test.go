@@ -1,10 +1,14 @@
 package command
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/thegeeklab/url-parser/config"
+)
 
 type TestParseData struct {
-	urlString string
-	expected  string
+	config   *config.Config
+	expected string
 }
 
 func TestParseURL(t *testing.T) {
@@ -13,8 +17,8 @@ func TestParseURL(t *testing.T) {
 
 	tables := []TestParseData{
 		{
-			urlString: urlString,
-			expected:  urlString,
+			config:   &config.Config{URL: urlString},
+			expected: urlString,
 		},
 	}
 

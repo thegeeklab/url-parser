@@ -23,11 +23,6 @@ url-parser --help
 Build the binary from source with the following command:
 
 ```Shell
-export GOOS=linux
-export GOARCH=amd64
-export CGO_ENABLED=0
-export GO111MODULE=on
-
 make build
 ```
 
@@ -58,29 +53,29 @@ COMMANDS:
 
 GLOBAL OPTIONS:
    --url value    source url to parse [$URL_PARSER_URL]
-   --help, -h     show help (default: false)
-   --version, -v  print the version (default: false)
+   --help, -h     show help
+   --version, -v  print the version
 ```
 
 ## Examples
 
 ```Shell
-$ url-parser host --url https://somedomain.com
+$ url-parser --url https://somedomain.com host
 somedomain.com
 
-$ url-parser user --url https://herloct@somedomain.com
+$ url-parser --url https://herloct@somedomain.com user
 herloct
 
-$ url-parser path --url https://somedomain.com/path/to
+$ url-parser --url https://somedomain.com/path/to path
 /path/to
 
-$ url-parser path --path-index=1 --url https://somedomain.com/path/to
+$ url-parser --url https://somedomain.com/path/to path --path-index=1
 to
 
-$ url-parser query --url https://somedomain.com/?some-key=somevalue
+$ url-parser --url https://somedomain.com/?some-key=somevalue query
 some-key=somevalue
 
-$ url-parser query --query-field=some-key --url https://somedomain.com/?some-key=somevalue
+$ url-parser --url https://somedomain.com/?some-key=somevalue query --query-field=some-key
 somevalue
 ```
 

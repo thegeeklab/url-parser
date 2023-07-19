@@ -1,18 +1,17 @@
 package command
 
 import (
-	"flag"
 	"strings"
 	"testing"
 
+	"github.com/thegeeklab/url-parser/config"
 	"github.com/urfave/cli/v2"
 	"github.com/zenizh/go-capturer"
 )
 
 type TestPathData struct {
-	urlString string
-	pathIndex int
-	expected  string
+	config   *config.Config
+	expected string
 }
 
 func TestPath(t *testing.T) {
@@ -20,25 +19,20 @@ func TestPath(t *testing.T) {
 
 	tables := []TestPathData{
 		{
-			urlString: urlString,
-			pathIndex: -1,
-			expected:  "/path/to",
+			config:   &config.Config{URL: urlString, PathIndex: -1},
+			expected: "/path/to",
 		},
 		{
-			urlString: urlString,
-			pathIndex: 0,
-			expected:  "path",
+			config:   &config.Config{URL: urlString, PathIndex: 0},
+			expected: "path",
 		},
 	}
 
 	for _, table := range tables {
 		app := cli.NewApp()
-		set := flag.NewFlagSet("test", 0)
-		set.String("url", table.urlString, "test url")
-		set.Int("path-index", table.pathIndex, "index")
+		ctx := cli.NewContext(app, nil, nil)
 
-		c := cli.NewContext(app, set, nil)
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Path(c) }))
+		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Path(table.config)(ctx) }))
 
 		if result != table.expected {
 			t.Fatalf("URL path `%v`, should be `%v`", result, table.expected)

@@ -8,9 +8,9 @@ import (
 )
 
 // User prints out the user part from url.
-func User(config *config.Config) cli.ActionFunc {
+func User(cfg *config.Config) cli.ActionFunc {
 	return func(ctx *cli.Context) error {
-		parts := parseURL(config.URL)
+		parts := parseURL(cfg.URL)
 
 		if parts.User != nil {
 			if len(parts.User.Username()) > 0 {

@@ -8,22 +8,22 @@ import (
 )
 
 // QueryFlags defines flags for query subcommand.
-func QueryFlags(config *config.Config) []cli.Flag {
+func QueryFlags(cfg *config.Config) []cli.Flag {
 	return []cli.Flag{
 		&cli.StringFlag{
 			Name:        "query-field",
 			Usage:       "filter parsed query string by field name",
 			EnvVars:     []string{"URL_PARSER_QUERY_FIELD"},
-			Destination: &config.QueryField,
+			Destination: &cfg.QueryField,
 		},
 	}
 }
 
 // Query prints out the query part from url.
-func Query(config *config.Config) cli.ActionFunc {
+func Query(cfg *config.Config) cli.ActionFunc {
 	return func(ctx *cli.Context) error {
-		parts := parseURL(config.URL)
-		f := config.QueryField
+		parts := parseURL(cfg.URL)
+		f := cfg.QueryField
 
 		if len(parts.RawQuery) > 0 {
 			if f != "" {

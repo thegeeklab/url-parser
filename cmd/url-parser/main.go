@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
+	"strings"
 
 	"github.com/sirupsen/logrus"
 	"github.com/thegeeklab/url-parser/command"
@@ -21,19 +23,25 @@ func main() {
 		fmt.Printf("%s version=%s date=%s\n", c.App.Name, c.App.Version, BuildDate)
 	}
 
-	config := &config.Config{}
+	cfg := &config.Config{}
 
 	app := &cli.App{
 		Name:    "url-parser",
 		Usage:   "Parse URL and shows the part of it.",
 		Version: BuildVersion,
-		Action:  command.Run(config),
+		Action:  command.Run(cfg),
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:        "url",
 				Usage:       "source url to parse",
 				EnvVars:     []string{"URL_PARSER_URL"},
-				Destination: &config.URL,
+				Destination: &cfg.URL,
+			},
+			&cli.BoolFlag{
+				Name:        "stdin",
+				Usage:       "read url to parse from stdin",
+				EnvVars:     []string{"URL_PARSER_STDIN"},
+				Destination: &cfg.Stdin,
 			},
 		},
 		Commands: []*cli.Command{
@@ -41,58 +49,88 @@ func main() {
 				Name:    "all",
 				Aliases: []string{"a"},
 				Usage:   "Get all parts from url",
-				Action:  command.Run(config),
+				Action:  command.Run(cfg),
 			},
 			{
 				Name:    "scheme",
 				Aliases: []string{"s"},
 				Usage:   "Get scheme from url",
-				Action:  command.Scheme(config),
+				Action:  command.Scheme(cfg),
 			},
 			{
 				Name:    "user",
 				Aliases: []string{"u"},
 				Usage:   "Get username from url",
-				Action:  command.User(config),
+				Action:  command.User(cfg),
 			},
 			{
 				Name:    "password",
 				Aliases: []string{"pw"},
 				Usage:   "Get password from url",
-				Action:  command.Password(config),
+				Action:  command.Password(cfg),
 			},
 			{
 				Name:    "path",
 				Aliases: []string{"pt"},
 				Usage:   "Get path from url",
-				Action:  command.Path(config),
-				Flags:   command.PathFlags(config),
+				Action:  command.Path(cfg),
+				Flags:   command.PathFlags(cfg),
 			},
 			{
 				Name:    "host",
 				Aliases: []string{"h"},
 				Usage:   "Get hostname from url",
-				Action:  command.Host(config),
+				Action:  command.Host(cfg),
 			},
 			{
 				Name:    "port",
 				Aliases: []string{"p"},
 				Usage:   "Get port from url",
-				Action:  command.Port(config),
+				Action:  command.Port(cfg),
 			},
 			{
 				Name:    "query",
 				Aliases: []string{"q"},
 				Usage:   "Get query from url",
-				Action:  command.Query(config),
-				Flags:   command.QueryFlags(config),
+				Action:  command.Query(cfg),
+				Flags:   command.QueryFlags(cfg),
 			},
 			{
 				Name:    "fragment",
 				Aliases: []string{"f"},
 				Usage:   "Get fragment from url",
-				Action:  command.Fragment(config),
+				Action:  command.Fragment(cfg),
 			},
+		},
+		Before: func(ctx *cli.Context) error {
+			if cfg.URL == "" && !cfg.Stdin {
+				_ = cli.ShowAppHelp(ctx)
+
+				return fmt.Errorf("error: %w", config.ErrRequiredFlagsNotSet)
+			}
+
+			if cfg.URL != "" && cfg.Stdin {
+				_ = cli.ShowAppHelp(ctx)
+
+				return fmt.Errorf("error: %w", config.ErrExclusiveFlags)
+			}
+
+			if cfg.Stdin {
+				stat, _ := os.Stdin.Stat()
+				if (stat.Mode() & os.ModeCharDevice) == 0 {
+					stdin, err := io.ReadAll(os.Stdin)
+					if err != nil {
+						return fmt.Errorf("error: %w: %w", config.ErrEmptyStdin, err)
+					}
+					cfg.URL = strings.TrimSuffix(string(stdin), "\n")
+				}
+
+				if cfg.URL == "" {
+					return fmt.Errorf("error: %w", config.ErrEmptyStdin)
+				}
+			}
+
+			return nil
 		},
 	}
 

@@ -53,7 +53,6 @@ COMMANDS:
 
 GLOBAL OPTIONS:
    --url value    source url to parse [$URL_PARSER_URL]
-   --stdin        read url to parse from stdin (default: false) [$URL_PARSER_STDIN]
    --help, -h     show help
    --version, -v  print the version
 ```
@@ -78,6 +77,10 @@ some-key=somevalue
 
 $ url-parser --url https://somedomain.com/?some-key=somevalue query --query-field=some-key
 somevalue
+
+# It is also possible to read the URL from stdin
+$ echo "https://somedomain.com" | url-parser host
+somedomain.com
 ```
 
 ## Contributors

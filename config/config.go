@@ -10,7 +10,6 @@ var (
 
 type Config struct {
 	URL        string
-	Stdin      bool
 	QueryField string
 	PathIndex  int
 }

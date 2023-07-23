@@ -37,12 +37,6 @@ func main() {
 				EnvVars:     []string{"URL_PARSER_URL"},
 				Destination: &cfg.URL,
 			},
-			&cli.BoolFlag{
-				Name:        "stdin",
-				Usage:       "read url to parse from stdin",
-				EnvVars:     []string{"URL_PARSER_STDIN"},
-				Destination: &cfg.Stdin,
-			},
 		},
 		Commands: []*cli.Command{
 			{
@@ -103,31 +97,19 @@ func main() {
 			},
 		},
 		Before: func(ctx *cli.Context) error {
-			if cfg.URL == "" && !cfg.Stdin {
-				_ = cli.ShowAppHelp(ctx)
-
-				return fmt.Errorf("error: %w", config.ErrRequiredFlagsNotSet)
-			}
-
-			if cfg.URL != "" && cfg.Stdin {
-				_ = cli.ShowAppHelp(ctx)
-
-				return fmt.Errorf("error: %w", config.ErrExclusiveFlags)
-			}
-
-			if cfg.Stdin {
+			if cfg.URL == "" {
 				stat, _ := os.Stdin.Stat()
 				if (stat.Mode() & os.ModeCharDevice) == 0 {
 					stdin, err := io.ReadAll(os.Stdin)
 					if err != nil {
-						return fmt.Errorf("error: %w: %w", config.ErrEmptyStdin, err)
+						return fmt.Errorf("error: %w: %w", config.ErrReadStdin, err)
 					}
 					cfg.URL = strings.TrimSuffix(string(stdin), "\n")
 				}
+			}
 
-				if cfg.URL == "" {
-					return fmt.Errorf("error: %w", config.ErrEmptyStdin)
-				}
+			if cfg.URL == "" {
+				return fmt.Errorf("error: %w", config.ErrEmptyURL)
 			}
 
 			return nil

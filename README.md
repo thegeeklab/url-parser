@@ -1,6 +1,6 @@
 # url-parser
 
-[![Build Status](https://img.shields.io/drone/build/thegeeklab/url-parser?logo=drone&server=https%3A%2F%2Fdrone.thegeeklab.de)](https://drone.thegeeklab.de/thegeeklab/url-parser)
+[![Build Status](https://ci.thegeeklab.de/api/badges/thegeeklab/url-parser/status.svg)](https://ci.thegeeklab.de/repos/thegeeklab/url-parser)
 [![Go Report Card](https://goreportcard.com/badge/github.com/thegeeklab/url-parser)](https://goreportcard.com/report/github.com/thegeeklab/url-parser)
 [![Codecov](https://img.shields.io/codecov/c/github/thegeeklab/url-parser)](https://codecov.io/gh/thegeeklab/url-parser)
 [![GitHub contributors](https://img.shields.io/github/contributors/thegeeklab/url-parser)](https://github.com/thegeeklab/url-parser/graphs/contributors)
@@ -10,7 +10,7 @@ Inspired by [herloct/url-parser](https://github.com/herloct/url-parser), a simpl
 
 ## Installation
 
-Prebuild multiarch binaries are availabe for Linux only:
+Prebuilt multiarch binaries are available for Linux only.
 
 ```Shell
 curl -L https://github.com/thegeeklab/url-parser/releases/download/v0.1.0/url-parser-0.1.0-linux-amd64 > /usr/local/bin/url-parser

@@ -19,7 +19,7 @@ GOLANGCI_LINT_PACKAGE ?= github.com/golangci/golangci-lint/cmd/golangci-lint@$(G
 XGO_PACKAGE ?= src.techknowlogick.com/xgo@latest
 
 GENERATE ?=
-XGO_VERSION := go-1.20.x
+XGO_VERSION := go-1.21.x
 XGO_TARGETS ?= linux/amd64,linux/arm-6,linux/arm-7,linux/arm64
 
 TARGETOS ?= linux
@@ -30,8 +30,8 @@ endif
 TAGS ?= netgo
 
 ifndef VERSION
-	ifneq ($(DRONE_TAG),)
-		VERSION ?= $(subst v,,$(DRONE_TAG))
+	ifneq ($(CI_COMMIT_TAG),)
+		VERSION ?= $(subst v,,$(CI_COMMIT_TAG))
 	else
 		VERSION ?= $(shell git rev-parse --short HEAD)
 	endif

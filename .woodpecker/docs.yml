@@ -1,0 +1,71 @@
+---
+when:
+  - event: [pull_request, tag]
+  - event: [push, manual]
+    branch:
+      - ${CI_REPO_DEFAULT_BRANCH}
+
+steps:
+  markdownlint:
+    image: quay.io/thegeeklab/markdownlint-cli
+    commands:
+      - markdownlint 'README.md' 'CONTRIBUTING.md'
+
+  spellcheck:
+    image: quay.io/thegeeklab/alpine-tools
+    commands:
+      - spellchecker --files '_docs/**/*.md' 'README.md' 'CONTRIBUTING.md' -d .dictionary -p spell indefinite-article syntax-urls --no-suggestions
+    environment:
+      FORCE_COLOR: "true"
+      NPM_CONFIG_LOGLEVEL: "error"
+
+  publish:
+    image: quay.io/thegeeklab/wp-git-action
+    settings:
+      action:
+        - pages
+      author_email: bot@thegeeklab.de
+      author_name: thegeeklab-bot
+      branch: docs
+      message: "[skip ci] auto-update documentation"
+      netrc_password:
+        from_secret: github_token
+      pages_directory: _docs/
+    when:
+      - event: [push, manual]
+        branch:
+          - ${CI_REPO_DEFAULT_BRANCH}
+
+  pushrm-dockerhub:
+    image: docker.io/chko/docker-pushrm:1
+    secrets:
+      - source: docker_password
+        target:  DOCKER_PASS
+      - source: docker_username
+        target:  DOCKER_USER
+    environment:
+      PUSHRM_FILE: README.md
+      PUSHRM_SHORT: Woodpecker CI plugin to build multiarch OCI images with buildx
+      PUSHRM_TARGET: ${CI_REPO}
+    when:
+      - event: [push, manual]
+        branch:
+          - ${CI_REPO_DEFAULT_BRANCH}
+        status: [success]
+
+  pushrm-quay:
+    image: docker.io/chko/docker-pushrm:1
+    secrets:
+      - source: quay_token
+        target: APIKEY__QUAY_IO
+    environment:
+      PUSHRM_FILE: README.md
+      PUSHRM_TARGET: quay.io/${CI_REPO}
+    when:
+      - event: [push, manual]
+        branch:
+          - ${CI_REPO_DEFAULT_BRANCH}
+        status: [success]
+
+depends_on:
+  - build-binary

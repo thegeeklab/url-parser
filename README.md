@@ -1,5 +1,7 @@
 # url-parser
 
+Simple command-line URL parser
+
 [![Build Status](https://ci.thegeeklab.de/api/badges/thegeeklab/url-parser/status.svg)](https://ci.thegeeklab.de/repos/thegeeklab/url-parser)
 [![Go Report Card](https://goreportcard.com/badge/github.com/thegeeklab/url-parser)](https://goreportcard.com/report/github.com/thegeeklab/url-parser)
 [![Codecov](https://img.shields.io/codecov/c/github/thegeeklab/url-parser)](https://codecov.io/gh/thegeeklab/url-parser)

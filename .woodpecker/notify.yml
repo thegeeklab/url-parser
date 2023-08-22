@@ -23,4 +23,4 @@ steps:
       - status: [success, failure]
 
 depends_on:
-  - docs
+  - build-package

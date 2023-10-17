@@ -14,9 +14,8 @@ Inspired by [herloct/url-parser](https://github.com/herloct/url-parser), a simpl
 Prebuilt multiarch binaries are available for Linux only.
 
 ```Shell
-curl -L https://github.com/thegeeklab/url-parser/releases/download/v0.1.0/url-parser-0.1.0-linux-amd64 > /usr/local/bin/url-parser
+curl -SsfL https://github.com/thegeeklab/url-parser/releases/latest/download/url-parser-linux-amd64 -o /usr/local/bin/url-parser
 chmod +x /usr/local/bin/url-parser
-url-parser --help
 ```
 
 ## Build

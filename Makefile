@@ -17,6 +17,7 @@ SOURCES ?= $(shell find . -name "*.go" -type f)
 GOFUMPT_PACKAGE ?= mvdan.cc/gofumpt@$(GOFUMPT_PACKAGE_VERSION)
 GOLANGCI_LINT_PACKAGE ?= github.com/golangci/golangci-lint/cmd/golangci-lint@$(GOLANGCI_LINT_PACKAGE_VERSION)
 XGO_PACKAGE ?= src.techknowlogick.com/xgo@latest
+GOTESTSUM_PACKAGE ?= gotest.tools/gotestsum@latest
 
 GENERATE ?=
 XGO_VERSION := go-1.21.x
@@ -68,7 +69,7 @@ generate:
 
 .PHONY: test
 test:
-	$(GO) test -v -coverprofile coverage.out $(PACKAGES)
+	$(GO) run $(GOTESTSUM_PACKAGE) --no-color=false -- -coverprofile=coverage.out $(PACKAGES)
 
 .PHONY: build
 build: $(DIST)/$(EXECUTABLE)
@@ -99,3 +100,4 @@ deps:
 	$(GO) install $(GOFUMPT_PACKAGE)
 	$(GO) install $(GOLANGCI_LINT_PACKAGE)
 	$(GO) install $(XGO_PACKAGE)
+	$(GO) install $(GOTESTSUM_PACKAGE)

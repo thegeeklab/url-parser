@@ -72,7 +72,7 @@ func main() {
 			},
 			{
 				Name:    "host",
-				Aliases: []string{"h"},
+				Aliases: []string{"ht"},
 				Usage:   "Get hostname from url",
 				Action:  command.Host(cfg),
 			},

@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/rs/zerolog/log"
-
 	"github.com/thegeeklab/url-parser/config"
 )
 

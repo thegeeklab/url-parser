@@ -6,7 +6,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
+
+	"github.com/rs/zerolog"
 	"github.com/thegeeklab/url-parser/command"
 	"github.com/thegeeklab/url-parser/config"
 	"github.com/urfave/cli/v2"
@@ -19,6 +21,8 @@ var (
 )
 
 func main() {
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+
 	cli.VersionPrinter = func(c *cli.Context) {
 		fmt.Printf("%s version=%s date=%s\n", c.App.Name, c.App.Version, BuildDate)
 	}
@@ -117,6 +121,6 @@ func main() {
 	}
 
 	if err := app.Run(os.Args); err != nil {
-		logrus.Fatal(err)
+		log.Fatal().Err(err).Msg("Execution error")
 	}
 }

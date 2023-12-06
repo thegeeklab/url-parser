@@ -1,11 +1,10 @@
 package command
 
 import (
-	"fmt"
 	"net/url"
 	"strings"
 
-	"github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 	"github.com/thegeeklab/url-parser/config"
 )
 
@@ -14,7 +13,7 @@ func parseURL(raw string) *url.URL {
 
 	url, err := url.Parse(urlString)
 	if err != nil {
-		logrus.Fatal(fmt.Errorf("%w: %w", config.ErrParseURL, err))
+		log.Fatal().Err(err).Msg(config.ErrParseURL.Error())
 	}
 
 	return url

@@ -17,7 +17,6 @@ steps:
       - spellchecker --files 'README.md' 'CONTRIBUTING.md' -d .dictionary -p spell indefinite-article syntax-urls
     environment:
       FORCE_COLOR: "true"
-      NPM_CONFIG_LOGLEVEL: "error"
 
 depends_on:
   - build-package

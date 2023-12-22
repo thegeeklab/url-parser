@@ -6,12 +6,12 @@ when:
       - ${CI_REPO_DEFAULT_BRANCH}
 
 steps:
-  lint:
+  - name: lint
     image: docker.io/library/golang:1.21
     commands:
       - make lint
 
-  test:
+  - name: test
     image: docker.io/library/golang:1.21
     commands:
       - make test

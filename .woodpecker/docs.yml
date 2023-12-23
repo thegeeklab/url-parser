@@ -6,12 +6,12 @@ when:
       - ${CI_REPO_DEFAULT_BRANCH}
 
 steps:
-  markdownlint:
+  - name: markdownlint
     image: quay.io/thegeeklab/markdownlint-cli
     commands:
       - markdownlint 'README.md' 'CONTRIBUTING.md'
 
-  spellcheck:
+  - name: spellcheck
     image: quay.io/thegeeklab/alpine-tools
     commands:
       - spellchecker --files 'README.md' 'CONTRIBUTING.md' -d .dictionary -p spell indefinite-article syntax-urls

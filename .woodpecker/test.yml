@@ -10,11 +10,11 @@ when:
 
 steps:
   - name: lint
-    image: docker.io/library/golang:1.21
+    image: docker.io/library/golang:1.22
     commands:
       - make lint
 
   - name: test
-    image: docker.io/library/golang:1.21
+    image: docker.io/library/golang:1.22
     commands:
       - make test

@@ -6,7 +6,7 @@ when:
       - ${CI_REPO_DEFAULT_BRANCH}
   - event: [push]
     branch:
-      - renovate/*
+      - renovate/auto/*
 
 steps:
   - name: lint

@@ -9,7 +9,7 @@ import (
 
 // Password prints out the password part from url.
 func Password(cfg *config.Config) cli.ActionFunc {
-	return func(ctx *cli.Context) error {
+	return func(_ *cli.Context) error {
 		parts := parseURL(cfg.URL)
 
 		if parts.User != nil {

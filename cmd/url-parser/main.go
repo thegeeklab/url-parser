@@ -99,7 +99,7 @@ func main() {
 				Action:  command.Fragment(cfg),
 			},
 		},
-		Before: func(ctx *cli.Context) error {
+		Before: func(_ *cli.Context) error {
 			if cfg.URL == "" {
 				stat, _ := os.Stdin.Stat()
 				if (stat.Mode() & os.ModeCharDevice) == 0 {

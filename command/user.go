@@ -9,7 +9,7 @@ import (
 
 // User prints out the user part from url.
 func User(cfg *config.Config) cli.ActionFunc {
-	return func(ctx *cli.Context) error {
+	return func(_ *cli.Context) error {
 		parts := parseURL(cfg.URL)
 
 		if parts.User != nil {

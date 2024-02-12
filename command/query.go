@@ -21,7 +21,7 @@ func QueryFlags(cfg *config.Config) []cli.Flag {
 
 // Query prints out the query part from url.
 func Query(cfg *config.Config) cli.ActionFunc {
-	return func(ctx *cli.Context) error {
+	return func(_ *cli.Context) error {
 		parts := parseURL(cfg.URL)
 		f := cfg.QueryField
 

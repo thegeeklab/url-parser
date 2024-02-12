@@ -1,7 +1,7 @@
 # renovate: datasource=github-releases depName=mvdan/gofumpt
 GOFUMPT_PACKAGE_VERSION := v0.6.0
 # renovate: datasource=github-releases depName=golangci/golangci-lint
-GOLANGCI_LINT_PACKAGE_VERSION := v1.55.2
+GOLANGCI_LINT_PACKAGE_VERSION := v1.56.1
 
 EXECUTABLE := url-parser
 

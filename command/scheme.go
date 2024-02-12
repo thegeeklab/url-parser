@@ -9,7 +9,7 @@ import (
 
 // Scheme prints out the scheme part from the url.
 func Scheme(cfg *config.Config) cli.ActionFunc {
-	return func(ctx *cli.Context) error {
+	return func(_ *cli.Context) error {
 		parts := parseURL(cfg.URL)
 
 		if len(parts.Scheme) > 0 {

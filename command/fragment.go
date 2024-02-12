@@ -9,7 +9,7 @@ import (
 
 // Fragment prints out the fragment part from the url.
 func Fragment(cfg *config.Config) cli.ActionFunc {
-	return func(ctx *cli.Context) error {
+	return func(_ *cli.Context) error {
 		parts := parseURL(cfg.URL)
 
 		if len(parts.Scheme) > 0 {

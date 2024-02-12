@@ -9,7 +9,7 @@ import (
 
 // Run default command and print out full url.
 func Run(cfg *config.Config) cli.ActionFunc {
-	return func(ctx *cli.Context) error {
+	return func(_ *cli.Context) error {
 		parts := parseURL(cfg.URL)
 
 		if len(parts.String()) > 0 {

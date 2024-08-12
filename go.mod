@@ -4,7 +4,7 @@ go 1.22
 
 require (
 	github.com/rs/zerolog v1.33.0
-	github.com/urfave/cli/v2 v2.27.3
+	github.com/urfave/cli/v2 v2.27.4
 	github.com/zenizh/go-capturer v0.0.0-20211219060012-52ea6c8fed04
 )
 

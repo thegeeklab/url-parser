@@ -7,7 +7,7 @@ when:
 
 steps:
   - name: build
-    image: docker.io/techknowlogick/xgo:go-1.22.x
+    image: docker.io/techknowlogick/xgo:go-1.23.x
     commands:
       - ln -s $(pwd) /source
       - make release

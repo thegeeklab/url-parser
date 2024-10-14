@@ -4,12 +4,12 @@ go 1.23.2
 
 require (
 	github.com/rs/zerolog v1.33.0
-	github.com/urfave/cli/v2 v2.27.4
+	github.com/urfave/cli/v2 v2.27.5
 	github.com/zenizh/go-capturer v0.0.0-20211219060012-52ea6c8fed04
 )
 
 require (
-	github.com/cpuguy83/go-md2man/v2 v2.0.4 // indirect
+	github.com/cpuguy83/go-md2man/v2 v2.0.5 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect

@@ -34,7 +34,7 @@ NAME:
    url-parser - Parse URL and shows the part of it.
 
 USAGE:
-   url-parser [global options] command [command options] [arguments...]
+   url-parser [global options] command [command options]
 
 VERSION:
    devel
@@ -45,7 +45,7 @@ COMMANDS:
    user, u       Get username from url
    password, pw  Get password from url
    path, pt      Get path from url
-   host, h       Get hostname from url
+   host, ht      Get hostname from url
    port, p       Get port from url
    query, q      Get query from url
    fragment, f   Get fragment from url
@@ -81,6 +81,10 @@ somevalue
 # It is also possible to read the URL from stdin
 $ echo "https://somedomain.com" | url-parser host
 somedomain.com
+
+# Get json output or all parsed parts
+$ url-parser --url https://somedomain.com/?some-key=somevalue all --json
+{"scheme":"https","hostname":"somedomain.com","port":"","path":"/","fragment":"","rawQuery":"some-key=somevalue","queryParams":[{"key":"some-key","value":"somevalue"}],"username":"","password":""}
 ```
 
 ## Contributors

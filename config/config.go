@@ -11,5 +11,7 @@ var (
 type Config struct {
 	URL        string
 	QueryField string
+	QuerySplit bool
 	PathIndex  int
+	JSONOutput bool
 }

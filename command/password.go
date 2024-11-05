@@ -10,13 +10,10 @@ import (
 // Password prints out the password part from url.
 func Password(cfg *config.Config) cli.ActionFunc {
 	return func(_ *cli.Context) error {
-		parts := parseURL(cfg.URL)
+		parts := NewURLParser(cfg.URL, cfg.QueryField, cfg.QuerySplit).parse()
 
-		if parts.User != nil {
-			pw, _ := parts.User.Password()
-			if len(pw) > 0 {
-				fmt.Println(pw)
-			}
+		if parts.Password != "" {
+			fmt.Println(parts.Password)
 		}
 
 		return nil

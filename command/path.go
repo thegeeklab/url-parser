@@ -24,7 +24,7 @@ func PathFlags(cfg *config.Config) []cli.Flag {
 // Path prints out the path part from url.
 func Path(cfg *config.Config) cli.ActionFunc {
 	return func(_ *cli.Context) error {
-		parts := parseURL(cfg.URL)
+		parts := NewURLParser(cfg.URL, cfg.QueryField, cfg.QuerySplit).parse()
 		i := cfg.PathIndex
 
 		if len(parts.Path) > 0 {

@@ -10,7 +10,7 @@ import (
 // Fragment prints out the fragment part from the url.
 func Fragment(cfg *config.Config) cli.ActionFunc {
 	return func(_ *cli.Context) error {
-		parts := parseURL(cfg.URL)
+		parts := NewURLParser(cfg.URL, cfg.QueryField, cfg.QuerySplit).parse()
 
 		if len(parts.Scheme) > 0 {
 			fmt.Println(parts.Fragment)

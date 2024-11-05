@@ -10,12 +10,10 @@ import (
 // User prints out the user part from url.
 func User(cfg *config.Config) cli.ActionFunc {
 	return func(_ *cli.Context) error {
-		parts := parseURL(cfg.URL)
+		parts := NewURLParser(cfg.URL, cfg.QueryField, cfg.QuerySplit).parse()
 
-		if parts.User != nil {
-			if len(parts.User.Username()) > 0 {
-				fmt.Println(parts.User.Username())
-			}
+		if parts.Username != "" {
+			fmt.Println(parts.Username)
 		}
 
 		return nil

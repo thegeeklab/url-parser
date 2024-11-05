@@ -47,6 +47,7 @@ func main() {
 				Aliases: []string{"a"},
 				Usage:   "Get all parts from url",
 				Action:  command.Run(cfg),
+				Flags:   command.AllFlags(cfg),
 			},
 			{
 				Name:    "scheme",

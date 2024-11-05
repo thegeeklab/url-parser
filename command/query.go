@@ -22,17 +22,10 @@ func QueryFlags(cfg *config.Config) []cli.Flag {
 // Query prints out the query part from url.
 func Query(cfg *config.Config) cli.ActionFunc {
 	return func(_ *cli.Context) error {
-		parts := parseURL(cfg.URL)
-		f := cfg.QueryField
+		parts := NewURLParser(cfg.URL, cfg.QueryField, cfg.QuerySplit).parse()
 
-		if len(parts.RawQuery) > 0 {
-			if f != "" {
-				if result := parts.Query().Get(f); result != "" {
-					fmt.Println(result)
-				}
-			} else {
-				fmt.Println(parts.RawQuery)
-			}
+		if parts.Query != "" {
+			fmt.Println(parts.Query)
 		}
 
 		return nil

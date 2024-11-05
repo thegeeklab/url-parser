@@ -20,10 +20,12 @@ func TestRun(t *testing.T) {
 		expected string
 	}{
 		{
+			name:     "get url",
 			config:   &config.Config{URL: urlString},
 			expected: urlString,
 		},
 		{
+			name: "get url with query split",
 			config: &config.Config{
 				URL:        urlString,
 				QuerySplit: true,
@@ -56,29 +58,31 @@ func TestRun(t *testing.T) {
 		app := cli.NewApp()
 		ctx := cli.NewContext(app, nil, nil)
 
-		result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Run(tt.config)(ctx) }))
+		t.Run(tt.name, func(t *testing.T) {
+			result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Run(tt.config)(ctx) }))
 
-		if tt.config.JSONOutput {
-			got := &URL{}
-			expected := &URL{}
+			if tt.config.JSONOutput {
+				got := &URL{}
+				expected := &URL{}
 
-			_ = json.Unmarshal([]byte(result), &got)
-			_ = json.Unmarshal([]byte(tt.expected), &expected)
+				_ = json.Unmarshal([]byte(result), &got)
+				_ = json.Unmarshal([]byte(tt.expected), &expected)
 
-			assert.Equal(t, expected.Scheme, got.Scheme)
-			assert.Equal(t, expected.Username, got.Username)
-			assert.Equal(t, expected.Password, got.Password)
-			assert.Equal(t, expected.Hostname, got.Hostname)
-			assert.Equal(t, expected.Port, got.Port)
-			assert.Equal(t, expected.Path, got.Path)
-			assert.Equal(t, expected.Fragment, got.Fragment)
-			assert.Equal(t, expected.RawQuery, got.RawQuery)
-			assert.Equal(t, expected.Query, got.Query)
-			assert.ElementsMatch(t, expected.QueryParams, got.QueryParams)
+				assert.Equal(t, expected.Scheme, got.Scheme)
+				assert.Equal(t, expected.Username, got.Username)
+				assert.Equal(t, expected.Password, got.Password)
+				assert.Equal(t, expected.Hostname, got.Hostname)
+				assert.Equal(t, expected.Port, got.Port)
+				assert.Equal(t, expected.Path, got.Path)
+				assert.Equal(t, expected.Fragment, got.Fragment)
+				assert.Equal(t, expected.RawQuery, got.RawQuery)
+				assert.Equal(t, expected.Query, got.Query)
+				assert.ElementsMatch(t, expected.QueryParams, got.QueryParams)
 
-			continue
-		}
+				return
+			}
 
-		assert.Equal(t, tt.expected, result)
+			assert.Equal(t, tt.expected, result)
+		})
 	}
 }

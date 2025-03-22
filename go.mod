@@ -3,7 +3,7 @@ module github.com/thegeeklab/url-parser
 go 1.24.1
 
 require (
-	github.com/rs/zerolog v1.33.0
+	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.10.0
 	github.com/urfave/cli/v2 v2.27.6
 	github.com/zenizh/go-capturer v0.0.0-20211219060012-52ea6c8fed04

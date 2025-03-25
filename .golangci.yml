@@ -1,30 +1,28 @@
+version: "2"
+run:
+  timeout: 5m
+
 linters:
-  enable-all: false
-  disable-all: true
+  default: none
   enable:
-    - errcheck
-    - gosimple
-    - govet
-    - ineffassign
-    - staticcheck
-    - typecheck
-    - unused
     - asasalint
     - asciicheck
     - bidichk
     - bodyclose
     - containedctx
     - contextcheck
+    - copyloopvar
     - decorder
     - dogsled
     - dupl
     - dupword
     - durationcheck
+    - err113
+    - errcheck
     - errchkjson
     - errname
     - errorlint
     - exhaustive
-    - copyloopvar
     - forcetypeassert
     - ginkgolinter
     - gocheckcompilerdirectives
@@ -36,18 +34,15 @@ linters:
     - gocyclo
     - godot
     - godox
-    - err113
-    - gofmt
-    - gofumpt
     - goheader
-    - goimports
-    - mnd
     - gomoddirectives
     - gomodguard
     - goprintffuncname
     - gosec
+    - govet
     - grouper
     - importas
+    - ineffassign
     - interfacebloat
     - ireturn
     - lll
@@ -55,6 +50,7 @@ linters:
     - maintidx
     - makezero
     - misspell
+    - mnd
     - musttag
     - nakedret
     - nestif
@@ -70,27 +66,42 @@ linters:
     - promlinter
     - reassign
     - revive
-    # - rowserrcheck
-    # - sqlclosecheck
-    # - structcheck
-    - stylecheck
+    - staticcheck
     - tagliatelle
-    - tenv
     - testableexamples
     - thelper
     - tparallel
     - unconvert
     - unparam
+    - unused
     - usestdlibvars
-    # - wastedassign
+    - usetesting
     - whitespace
     - wsl
     - zerologlint
-  fast: false
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
 
-run:
-  timeout: 3m
-
-linters-settings:
-  gofumpt:
-    extra-rules: true
+formatters:
+  enable:
+    - gofmt
+    - gofumpt
+    - goimports
+  settings:
+    gofumpt:
+      extra-rules: true
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

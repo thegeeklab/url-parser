@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/thegeeklab/url-parser/config"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 // Host prints out the host part from the url.

@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/thegeeklab/url-parser/config"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 // PathFlags defines flags for path subcommand.

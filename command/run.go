@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/thegeeklab/url-parser/config"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 // Run default command and print out full url.

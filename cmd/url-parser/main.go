@@ -10,7 +10,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/thegeeklab/url-parser/command"
 	"github.com/thegeeklab/url-parser/config"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 //nolint:gochecknoglobals

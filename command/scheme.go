@@ -1,6 +1,7 @@
 package command
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/thegeeklab/url-parser/config"
@@ -9,7 +10,7 @@ import (
 
 // Scheme prints out the scheme part from the url.
 func Scheme(cfg *config.Config) cli.ActionFunc {
-	return func(_ *cli.Context) error {
+	return func(_ context.Context, _ *cli.Command) error {
 		parts := NewURLParser(cfg.URL, cfg.QueryField, cfg.QuerySplit).parse()
 
 		if len(parts.Scheme) > 0 {

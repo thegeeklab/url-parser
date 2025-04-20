@@ -26,11 +26,10 @@ func TestUser(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		app := cli.NewApp()
-		ctx := cli.NewContext(app, nil, nil)
+		app := &cli.Command{}
 
 		t.Run(tt.name, func(t *testing.T) {
-			result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = User(tt.config)(ctx) }))
+			result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = User(tt.config)(t.Context(), app) }))
 			assert.Equal(t, tt.expected, result)
 		})
 	}

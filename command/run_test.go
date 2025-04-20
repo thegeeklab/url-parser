@@ -55,11 +55,10 @@ func TestRun(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		app := cli.NewApp()
-		ctx := cli.NewContext(app, nil, nil)
+		app := &cli.Command{}
 
 		t.Run(tt.name, func(t *testing.T) {
-			result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Run(tt.config)(ctx) }))
+			result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Run(tt.config)(t.Context(), app) }))
 
 			if tt.config.JSONOutput {
 				got := &URL{}

@@ -1,6 +1,7 @@
 package command
 
 import (
+	"context"
 	"fmt"
 	"strings"
 
@@ -14,7 +15,7 @@ func PathFlags(cfg *config.Config) []cli.Flag {
 		&cli.IntFlag{
 			Name:        "path-index",
 			Usage:       "filter parsed path by index",
-			EnvVars:     []string{"URL_PARSER_PATH_INDEX"},
+			Sources:     cli.EnvVars("URL_PARSER_PATH_INDEX"),
 			Value:       -1,
 			Destination: &cfg.PathIndex,
 		},
@@ -23,7 +24,7 @@ func PathFlags(cfg *config.Config) []cli.Flag {
 
 // Path prints out the path part from url.
 func Path(cfg *config.Config) cli.ActionFunc {
-	return func(_ *cli.Context) error {
+	return func(_ context.Context, _ *cli.Command) error {
 		parts := NewURLParser(cfg.URL, cfg.QueryField, cfg.QuerySplit).parse()
 		i := cfg.PathIndex
 

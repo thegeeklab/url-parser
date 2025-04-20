@@ -1,16 +1,17 @@
 package command
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
 	"github.com/thegeeklab/url-parser/config"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 // Run default command and print out full url.
 func Run(cfg *config.Config) cli.ActionFunc {
-	return func(_ *cli.Context) error {
+	return func(_ context.Context, _ *cli.Command) error {
 		parts := NewURLParser(cfg.URL, cfg.QueryField, cfg.QuerySplit).parse()
 
 		if len(parts.String()) > 0 {
@@ -32,7 +33,7 @@ func AllFlags(cfg *config.Config) []cli.Flag {
 		&cli.BoolFlag{
 			Name:        "json",
 			Usage:       "output json",
-			EnvVars:     []string{"URL_PARSER_JSON"},
+			Sources:     cli.EnvVars("URL_PARSER_JSON"),
 			Destination: &cfg.JSONOutput,
 		},
 	}

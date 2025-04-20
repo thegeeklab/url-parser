@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/thegeeklab/url-parser/config"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 	"github.com/zenizh/go-capturer"
 )
 
@@ -26,11 +26,10 @@ func TestPort(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		app := cli.NewApp()
-		ctx := cli.NewContext(app, nil, nil)
+		app := &cli.Command{}
 
 		t.Run(tt.name, func(t *testing.T) {
-			result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Port(tt.config)(ctx) }))
+			result := strings.TrimSpace(capturer.CaptureStdout(func() { _ = Port(tt.config)(t.Context(), app) }))
 			assert.Equal(t, tt.expected, result)
 		})
 	}

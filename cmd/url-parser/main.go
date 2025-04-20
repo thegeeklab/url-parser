@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"os"
@@ -10,7 +11,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/thegeeklab/url-parser/command"
 	"github.com/thegeeklab/url-parser/config"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 //nolint:gochecknoglobals
@@ -22,13 +23,13 @@ var (
 func main() {
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 
-	cli.VersionPrinter = func(c *cli.Context) {
-		fmt.Printf("%s version=%s date=%s\n", c.App.Name, c.App.Version, BuildDate)
+	cli.VersionPrinter = func(c *cli.Command) {
+		fmt.Printf("%s version=%s date=%s\n", c.Name, c.Version, BuildDate)
 	}
 
 	cfg := &config.Config{}
 
-	app := &cli.App{
+	app := &cli.Command{
 		Name:    "url-parser",
 		Usage:   "Parse URL and shows the part of it.",
 		Version: BuildVersion,
@@ -37,7 +38,7 @@ func main() {
 			&cli.StringFlag{
 				Name:        "url",
 				Usage:       "source url to parse",
-				EnvVars:     []string{"URL_PARSER_URL"},
+				Sources:     cli.EnvVars("URL_PARSER_URL"),
 				Destination: &cfg.URL,
 			},
 		},
@@ -100,27 +101,27 @@ func main() {
 				Action:  command.Fragment(cfg),
 			},
 		},
-		Before: func(_ *cli.Context) error {
+		Before: func(ctx context.Context, _ *cli.Command) (context.Context, error) {
 			if cfg.URL == "" {
 				stat, _ := os.Stdin.Stat()
 				if (stat.Mode() & os.ModeCharDevice) == 0 {
 					stdin, err := io.ReadAll(os.Stdin)
 					if err != nil {
-						return fmt.Errorf("error: %w: %w", config.ErrReadStdin, err)
+						return ctx, fmt.Errorf("error: %w: %w", config.ErrReadStdin, err)
 					}
 					cfg.URL = strings.TrimSuffix(string(stdin), "\n")
 				}
 			}
 
 			if cfg.URL == "" {
-				return fmt.Errorf("error: %w", config.ErrEmptyURL)
+				return ctx, fmt.Errorf("error: %w", config.ErrEmptyURL)
 			}
 
-			return nil
+			return ctx, nil
 		},
 	}
 
-	if err := app.Run(os.Args); err != nil {
+	if err := app.Run(context.Background(), os.Args); err != nil {
 		log.Fatal().Err(err).Msg("Execution error")
 	}
 }

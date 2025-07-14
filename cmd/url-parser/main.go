@@ -120,7 +120,6 @@ func main() {
 			return ctx, nil
 		},
 	}
-
 	if err := app.Run(context.Background(), os.Args); err != nil {
 		log.Fatal().Err(err).Msg("Execution error")
 	}

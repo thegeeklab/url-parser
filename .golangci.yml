@@ -77,7 +77,7 @@ linters:
     - usestdlibvars
     - usetesting
     - whitespace
-    - wsl
+    - wsl_v5
     - zerologlint
   exclusions:
     generated: lax

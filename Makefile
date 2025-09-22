@@ -17,7 +17,6 @@ PACKAGES ?= $(shell go list ./...)
 SOURCES ?= $(shell find . -name "*.go" -type f)
 
 GOFUMPT_PACKAGE ?= mvdan.cc/gofumpt@$(GOFUMPT_PACKAGE_VERSION)
-GOLANGCI_LINT_PACKAGE ?= github.com/golangci/golangci-lint/v2/cmd/golangci-lint@$(GOLANGCI_LINT_PACKAGE_VERSION)
 XGO_PACKAGE ?= src.techknowlogick.com/xgo@latest
 GOTESTSUM_PACKAGE ?= gotest.tools/gotestsum@latest
 
@@ -55,11 +54,11 @@ clean:
 
 .PHONY: fmt
 fmt:
-	$(GO) run $(GOFUMPT_PACKAGE) -extra -w $(SOURCES)
+	$(shell go env GOPATH)/bin/gofumpt -extra -w $(SOURCES)
 
 .PHONY: golangci-lint
 golangci-lint:
-	$(GO) run $(GOLANGCI_LINT_PACKAGE) run
+	$(shell go env GOPATH)/bin/golangci-lint run
 
 .PHONY: lint
 lint: golangci-lint
@@ -70,7 +69,7 @@ generate:
 
 .PHONY: test
 test:
-	$(GO) run $(GOTESTSUM_PACKAGE) --no-color=false -- -coverprofile=coverage.out $(PACKAGES)
+	$(shell go env GOPATH)/bin/gotestsum --no-color=false -- -coverprofile=coverage.out $(PACKAGES)
 
 .PHONY: build
 build: $(DIST)/$(EXECUTABLE)
@@ -83,7 +82,7 @@ $(DIST_DIRS):
 
 .PHONY: xgo
 xgo: | $(DIST_DIRS)
-	$(GO) run $(XGO_PACKAGE) -go $(XGO_PACKAGE_VERSION) -v -ldflags '-extldflags "-static" $(LDFLAGS)' -tags '$(TAGS)' -targets '$(XGO_TARGETS)' -out $(EXECUTABLE) --pkg cmd/$(EXECUTABLE) .
+	$(shell go env GOPATH)/bin/xgo -go $(XGO_PACKAGE_VERSION) -v -ldflags '-extldflags "-static" $(LDFLAGS)' -tags '$(TAGS)' -targets '$(XGO_TARGETS)' -out $(EXECUTABLE) --pkg cmd/$(EXECUTABLE) .
 	cp /build/* $(CWD)/$(DIST)
 	ls -l $(CWD)/$(DIST)
 
@@ -97,8 +96,8 @@ release: xgo checksum
 
 .PHONY: deps
 deps:
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(shell go env GOPATH)/bin $(GOLANGCI_LINT_PACKAGE_VERSION)
 	$(GO) mod download
 	$(GO) install $(GOFUMPT_PACKAGE)
-	$(GO) install $(GOLANGCI_LINT_PACKAGE)
 	$(GO) install $(XGO_PACKAGE)
 	$(GO) install $(GOTESTSUM_PACKAGE)

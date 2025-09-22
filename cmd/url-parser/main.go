@@ -109,6 +109,7 @@ func main() {
 					if err != nil {
 						return ctx, fmt.Errorf("error: %w: %w", config.ErrReadStdin, err)
 					}
+
 					cfg.URL = strings.TrimSuffix(string(stdin), "\n")
 				}
 			}

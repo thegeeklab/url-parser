@@ -10,7 +10,7 @@ steps:
     image: docker.io/techknowlogick/xgo:go-1.25.1
     commands:
       - ln -s $(pwd) /source
-      - make release
+      - make deps release
 
   - name: executable
     image: quay.io/thegeeklab/alpine-tools

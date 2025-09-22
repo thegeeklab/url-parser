@@ -9,9 +9,9 @@ steps:
   - name: lint
     image: docker.io/library/golang:1.25.1
     commands:
-      - make lint
+      - make deps lint
 
   - name: test
     image: docker.io/library/golang:1.25.1
     commands:
-      - make test
+      - make deps test

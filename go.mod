@@ -1,6 +1,6 @@
 module github.com/thegeeklab/url-parser
 
-go 1.25.1
+go 1.25.2
 
 require (
 	github.com/rs/zerolog v1.34.0

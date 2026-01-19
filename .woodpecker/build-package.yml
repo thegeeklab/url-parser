@@ -7,7 +7,7 @@ when:
 
 steps:
   - name: build
-    image: docker.io/techknowlogick/xgo:go-1.25.5
+    image: docker.io/techknowlogick/xgo:go-1.25.6
     commands:
       - ln -s $(pwd) /source
       - make deps release

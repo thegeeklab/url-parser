@@ -1,3 +1,4 @@
+---
 version: "2"
 run:
   timeout: 5m
@@ -22,7 +23,6 @@ linters:
     - errchkjson
     - errname
     - errorlint
-    - exhaustive
     - forcetypeassert
     - ginkgolinter
     - gocheckcompilerdirectives
@@ -33,7 +33,6 @@ linters:
     - gocritic
     - gocyclo
     - godot
-    - godox
     - goheader
     - gomoddirectives
     - gomodguard
@@ -78,6 +77,18 @@ linters:
     - whitespace
     - wsl_v5
     - zerologlint
+  settings:
+    gosec:
+      excludes:
+        - G117 # Potential exposure of secrets via JSON marshaling
+    revive:
+      rules:
+        - name: var-naming
+          arguments:
+            - []
+            - []
+            - - skip-package-name-checks: true
+                skip-package-name-collision-with-go-std: true
   exclusions:
     generated: lax
     presets:

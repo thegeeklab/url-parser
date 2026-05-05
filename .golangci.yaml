@@ -100,7 +100,7 @@ linters:
       - linters:
           - goconst
           - gosec
-        path: (.+)_test.go
+        path: _test\.go
     paths:
       - third_party$
       - builtin$

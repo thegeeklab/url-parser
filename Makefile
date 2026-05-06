@@ -1,5 +1,5 @@
 # renovate: datasource=github-releases depName=mvdan/gofumpt
-GOFUMPT_PACKAGE_VERSION := v0.9.2
+GOFUMPT_PACKAGE_VERSION := v0.10.0
 # renovate: datasource=github-releases depName=golangci/golangci-lint
 GOLANGCI_LINT_PACKAGE_VERSION := v2.11.4
 # renovate: datasource=docker depName=docker.io/techknowlogick/xgo

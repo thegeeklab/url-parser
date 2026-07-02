@@ -3,7 +3,6 @@
 Simple command-line URL parser
 
 [![Build Status](https://ci.thegeeklab.de/api/badges/thegeeklab/url-parser/status.svg)](https://ci.thegeeklab.de/repos/thegeeklab/url-parser)
-[![Go Report Card](https://goreportcard.com/badge/github.com/thegeeklab/url-parser)](https://goreportcard.com/report/github.com/thegeeklab/url-parser)
 [![GitHub contributors](https://img.shields.io/github/contributors/thegeeklab/url-parser)](https://github.com/thegeeklab/url-parser/graphs/contributors)
 [![License: MIT](https://img.shields.io/github/license/thegeeklab/url-parser)](https://github.com/thegeeklab/url-parser/blob/main/LICENSE)
 

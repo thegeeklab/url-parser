@@ -29,7 +29,7 @@ linters:
     - gochecknoglobals
     - gochecknoinits
     - gocognit
-    # - goconst
+    - goconst
     - gocritic
     - gocyclo
     - godot
@@ -78,6 +78,11 @@ linters:
     - wsl_v5
     - zerologlint
   settings:
+    goconst:
+      ignore-tests: true
+      exclude-types:
+        - Call
+        - CompositeLit
     gosec:
       excludes:
         - G117 # Potential exposure of secrets via JSON marshaling
@@ -98,7 +103,6 @@ linters:
       - std-error-handling
     rules:
       - linters:
-          - goconst
           - gosec
         path: _test\.go
     paths:
@@ -108,7 +112,6 @@ linters:
 
 formatters:
   enable:
-    - gofmt
     - gofumpt
     - goimports
   settings:

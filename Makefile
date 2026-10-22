@@ -3,7 +3,7 @@ GOFUMPT_PACKAGE_VERSION := v0.12.0
 # renovate: datasource=github-releases depName=golangci/golangci-lint
 GOLANGCI_LINT_PACKAGE_VERSION := v2.15.0
 # renovate: datasource=docker depName=docker.io/techknowlogick/xgo
-XGO_PACKAGE_VERSION := go-1.27.2
+XGO_PACKAGE_VERSION := go-1.27.3
 
 EXECUTABLE := url-parser
 
